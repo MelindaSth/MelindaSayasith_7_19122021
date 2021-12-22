@@ -1,0 +1,20 @@
+const router = require('express').Router();
+
+const postCtrl = require('../controllers/post.ctrl');
+
+// #1 Get all posts
+router.get('/posts', postCtrl.getAllPosts);
+
+// #2 Get post by id
+router.get('/posts/:id', postCtrl.getPostById);
+
+// #3 Post 'post'
+router.post('/posts', postCtrl.createPost);
+
+// #4 Delete post by id
+router.delete('/posts/:id', postCtrl.deletePost);
+
+// #5 Modify post by id
+router.patch('/posts/:id', postCtrl.modifyPost);
+
+module.exports = router;
