@@ -7,6 +7,7 @@ const app = express();
 
 const postRoutes = require('./routes/post.routes');
 const userRoutes = require('./routes/user.routes');
+const auth = require('./middleware/auth');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -14,7 +15,7 @@ app.use(morgan('dev'));
 
 app.use('/api', postRoutes);
 app.use('/api', userRoutes);
-app.use('/api/auth', userRoutes);
+app.use('/auth', auth, userRoutes);
 
 app.use((req, res, next) => {
   next(createError.NotFound());

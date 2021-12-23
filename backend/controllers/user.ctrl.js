@@ -47,8 +47,8 @@ exports.login = async (req, res, next) => {
             }
         });
         if (!user) {
-            return res.status(401).json({ error: "User unknown" })
-        }
+            return res.status(401).json({ error: "User unknow" })
+        } else 
         bcrypt.compare(password, user.password)
             .then(valid => {
                 if (!valid) {
@@ -63,6 +63,7 @@ exports.login = async (req, res, next) => {
                     )
                 });
             })
+            .catch(error => res.status(500).json({error: 'Ca ne marche pas !'}));
     } catch (error) {
         next(error)
     }
