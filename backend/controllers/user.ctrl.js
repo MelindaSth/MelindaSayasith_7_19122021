@@ -25,8 +25,10 @@ exports.signup = async (req, res, next) => {
         bcrypt.hash(req.body.password, 10)
             .then(async hash => {
                 const newUser = await prisma.user.create({
-                    email: req.body.email,
-                    password: hash
+                    data: {
+                        email: req.body.email,
+                        password: hash
+                    }
                 })
                 res.json(newUser)
             })
@@ -40,30 +42,33 @@ exports.signup = async (req, res, next) => {
 exports.login = async (req, res, next) => {
     const email = req.body.email
     const password = req.body.password
+    console.log(password)
     try {
         const user = await prisma.user.findUnique({
             where: {
                 email
             }
         });
+        console.log(user)
         if (!user) {
             return res.status(401).json({ error: "User unknow" })
-        } else 
-        bcrypt.compare(password, user.password)
-            .then(valid => {
-                if (!valid) {
-                    return res.status(401).json({ error: 'Wrong password !' });
-                }
-                res.status(200).json({
-                    user: email,
-                    token: jwt.sign(
-                        { user: email },
-                        process.env.AUTH_KEY,
-                        { expireIn: '24h' }
-                    )
-                });
-            })
-            .catch(error => res.status(500).json({error: 'Ca ne marche pas !'}));
+        } else
+            bcrypt.compare(password, user.password)
+                .then(valid => {
+                    if (!valid) {
+                        return res.status(401).json({ error: 'Wrong password !' });
+                    }
+                    res.status(200).json({
+                        user: email,
+                        token: jwt.sign(
+                            { user: email },
+                            process.env.AUTH_KEY,
+                            { expiresIn: '24h' }
+                        )
+                    });
+                })
+                // .catch(error => res.status(500).json( error ));
+                .catch((error) => console.error(error))
     } catch (error) {
         next(error)
     }
