@@ -1,19 +1,30 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="YO C'EST GROUPOMANIA"/>
+    <img alt="Vue logo" src="./assets/logo.png" />
+    <NavBar />
+    <router-view/>
+
+    <p>{{ $store.getters.formattedDate }}</p>
+    <button @click="incrementMonth">Incrémenter</button>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import NavBar from './components/NavBar.vue'
+import { mapGetters, mapActions  } from "vuex";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    HelloWorld
+    NavBar,
+  },
+  computed: {
+    ...mapGetters(["formattedDate"]),
+  },
+  methods: {
+    ...mapActions(["incrementMonth"]),
   }
-}
+};
 </script>
 
 <style lang="scss">
