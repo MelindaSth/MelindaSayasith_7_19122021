@@ -20,18 +20,21 @@ exports.getAllUsers = async (req, res, next) => {
 
 // #2 Post newUser
 
-exports.signup = async (req, res, next) => {
+exports.register = async (req, res, next) => {
     try {
         bcrypt.hash(req.body.password, 10)
             .then(async hash => {
                 const newUser = await prisma.user.create({
                     data: {
                         email: req.body.email,
+                        lastname: req.body.lastname,
+                        firstname: req.body.firstname,
                         password: hash
                     }
                 })
                 res.json(newUser)
             })
+            .catch((error) => console.error(error))
     } catch (error) {
         next(error)
     }
@@ -42,14 +45,14 @@ exports.signup = async (req, res, next) => {
 exports.login = async (req, res, next) => {
     const email = req.body.email
     const password = req.body.password
-    console.log(password)
+    // console.log(password)
     try {
         const user = await prisma.user.findUnique({
             where: {
                 email
             }
         });
-        console.log(user)
+        // console.log(user)
         if (!user) {
             return res.status(401).json({ error: "User unknow" })
         } else
@@ -67,8 +70,8 @@ exports.login = async (req, res, next) => {
                         )
                     });
                 })
-                // .catch(error => res.status(500).json( error ));
-                .catch((error) => console.error(error))
+                .catch(error => res.status(500).json( error ));
+                // .catch((error) => console.error(error))
     } catch (error) {
         next(error)
     }

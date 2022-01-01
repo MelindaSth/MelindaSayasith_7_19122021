@@ -1,30 +1,33 @@
 <template>
   <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/posts">Posts</router-link> |
+    <router-link to="/">Accueil</router-link> |
+    <router-link to="/posts">Fil d'Actualité</router-link> |
     <span v-if="isLoggedIn">
-      <a @click="logout">Logout</a>
+      <a @click="logout">Se déconnecter</a>
     </span>
     <span v-else>
-      <router-link to="/register">Register</router-link> |
-      <router-link to="/login">Login</router-link>
+      <router-link to="/register">S'inscrire</router-link> |
+      <router-link to="/login">Se connecter</router-link>
     </span>
   </div>
 </template>
 <script>
 export default {
-  name: 'NavBar',
-  computed : {
-      isLoggedIn : function(){ return this.$store.getters.isAuthenticated}
+  name: "NavBar",
+  computed: {
+    isLoggedIn: function() {
+      return this.$store.getters.isAuthenticated;
     },
-    methods: {
-      async logout (){
-        await this.$store.dispatch('LogOut')
-        this.$router.push('/login')
-      }
+  },
+  methods: {
+    async logout() {
+      await this.$store.dispatch("LogOut");
+      this.$router.push("/login");
     },
-}
+  },
+};
 </script>
+
 <style>
 #nav {
   padding: 30px;

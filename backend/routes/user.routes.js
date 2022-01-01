@@ -8,7 +8,7 @@ const auth = require('../middleware/auth');
 router.get('/users', userCtrl.getAllUsers);
 
 // #2 Post newUser
-router.post('/signup', userCtrl.signup);
+router.post('/register', userCtrl.register);
 
 // #3 Post to login
 router.post('/login', userCtrl.login);
