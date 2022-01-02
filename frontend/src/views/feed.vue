@@ -1,9 +1,6 @@
 <template>
     <div id="feed">
         <h1>Fil d'actualité</h1>
-        <p>
-            Bienvenue
-        </p>
     </div>
 </template>
 
