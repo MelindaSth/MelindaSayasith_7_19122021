@@ -49,10 +49,10 @@ exports.login = async (req, res, next) => {
     try {
         const user = await prisma.user.findUnique({
             where: {
-                email
+                email: email
             }
         });
-        // console.log(user)
+        console.log(user)
         if (!user) {
             return res.status(401).json({ error: "User unknow" })
         } else
@@ -70,9 +70,10 @@ exports.login = async (req, res, next) => {
                         )
                     });
                 })
-                .catch(error => res.status(500).json( error ));
-                // .catch((error) => console.error(error))
+                .catch(error => res.status(500).json(error));
+        // .catch((error) => console.error(error))
     } catch (error) {
+        console.log(error)
         next(error)
     }
 }

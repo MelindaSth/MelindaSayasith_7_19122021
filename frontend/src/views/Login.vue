@@ -1,73 +1,47 @@
 <template>
-  <div class="login">
-    <div>
-      <form @submit.prevent="submit">
-        <div>
-          <label for="username">Email :</label>
-          <input type="text" name="email" v-model="form.email" />
-        </div>
-        <div>
-          <label for="password">Code :</label>
-          <input type="password" name="password" v-model="form.password" />
-        </div>
-        <button type="submit">Go !</button>
-      </form>
-      <p v-if="showError" id="error">Email ou mot de passe incorrecte</p>
+    <div id="login">
+        <h1>Login</h1>
+        <input type="text" name="username" v-model="input.username" placeholder="Username" />
+        <input type="password" name="password" v-model="input.password" placeholder="Password" />
+        <button type="button" v-on:click="login()">Login</button>
     </div>
-  </div>
 </template>
 
 <script>
-import { mapActions } from "vuex";
-export default {
-  name: "Login",
-  components: {},
-  data() {
-    return {
-      form: {
-        email: "",
-        password: "",
-      },
-      showError: false
-    };
-  },
-  methods: {
-    ...mapActions(["LogIn"]),
-    async submit() {
-      const User = new FormData();
-      User.append("email", this.form.email);
-      User.append("password", this.form.password);
-      try {
-          await this.LogIn(User);
-          this.$router.push("/posts");
-          this.showError = false
-      } catch (error) {
-        this.showError = true
-      }
-    },
-  },
-};
+    export default {
+        name: 'Login',
+        data() {
+            return {
+                input: {
+                    username: "",
+                    password: ""
+                }
+            }
+        },
+        methods: {
+            login() {
+                if(this.input.username != "" && this.input.password != "") {
+                    if(this.input.username == this.$parent.mockAccount.username && this.input.password == this.$parent.mockAccount.password) {
+                        this.$emit("authenticated", true);
+                        this.$router.replace({ name: "feed" });
+                    } else {
+                        console.log("The username and / or password is incorrect");
+                    }
+                } else {
+                    console.log("A username and password must be present");
+                }
+            }
+        }
+    }
 </script>
 
 <style scoped>
-* {
-  box-sizing: border-box;
-}
-label {
-  padding: 12px 12px 12px 0;
-  display: inline-block;
-}
-button[type="submit"] {
-  background-color: #4caf50;
-  color: white;
-  padding: 12px 20px;
-  cursor: pointer;
-  border-radius: 30px;
-}
-button[type="submit"]:hover {
-  background-color: #45a049;
-}
-#error {
-  color: red;
-}
+    #login {
+        width: 500px;
+        border: 1px solid #CCCCCC;
+        background-color: #FFFFFF;
+        margin: auto;
+        margin-top: 200px;
+        padding: 20px;
+    }
 </style>
