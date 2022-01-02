@@ -1,6 +1,6 @@
 <template>
-    <div id="feed">
-        <h1>Fil d'actualité</h1>
+    <div id="account">
+        <h1>Mon compte</h1>
         <p>
             Bienvenue
         </p>
@@ -9,7 +9,7 @@
 
 <script>
     export default {
-        name: 'Feed',
+        name: 'Account',
         data() {
             return {};
         }

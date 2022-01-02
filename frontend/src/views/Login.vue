@@ -1,9 +1,9 @@
 <template>
     <div id="login">
-        <h1>Login</h1>
-        <input type="text" name="username" v-model="input.username" placeholder="Username" />
-        <input type="password" name="password" v-model="input.password" placeholder="Password" />
-        <button type="button" v-on:click="login()">Login</button>
+        <h1>Connexion</h1>
+        <input type="text" name="email" v-model="input.email" placeholder="Email" />
+        <input type="password" name="password" v-model="input.password" placeholder="Mot de passe" />
+        <button type="button" v-on:click="login()">Se connecter</button>
     </div>
 </template>
 
@@ -13,15 +13,15 @@
         data() {
             return {
                 input: {
-                    username: "",
+                    email: "",
                     password: ""
                 }
             }
         },
         methods: {
             login() {
-                if(this.input.username != "" && this.input.password != "") {
-                    if(this.input.username == this.$parent.mockAccount.username && this.input.password == this.$parent.mockAccount.password) {
+                if(this.input.email != "" && this.input.password != "") {
+                    if(this.input.email == this.$parent.mockAccount.email && this.input.password == this.$parent.mockAccount.password) {
                         this.$emit("authenticated", true);
                         this.$router.replace({ name: "feed" });
                     } else {
