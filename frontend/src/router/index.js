@@ -8,10 +8,7 @@ Vue.use(VueRouter)
 export default new VueRouter({
     routes: [
         {
-            path: '/',
-            redirect: {
-                name: "login"
-            }
+            path: '/login'
         },
         {
             path: "/login",
