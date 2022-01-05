@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const createError = require('http-errors');
 const morgan = require('morgan');
+const cors = require('cors');
 require('dotenv').config();
 
 const path = require('path');
@@ -27,12 +28,15 @@ app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(morgan('dev'));
 
+app.use(cors());
+
 app.use(helmet());
 app.use('/images', express.static(path.join(__dirname, 'images'))); // Pour toute requête envoyée à /images/, on sert ce dossier statique image //
 
 app.use('/api', postRoutes);
 app.use('/api', commentRoutes)
 app.use('/api', userRoutes);
+app.use('/api/auth', userRoutes);
 
 app.use((req, res, next) => {
   next(createError.NotFound());

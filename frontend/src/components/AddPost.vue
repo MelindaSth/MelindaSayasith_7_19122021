@@ -2,7 +2,7 @@
   <section>
     <div class="blocAddPost">
       <h2>Exprimez-vous ! Partagez !</h2>
-      <form id="form-signup">
+      <form id="form-signup" enctype="multipart/form-data">
         <div class="form-group">
           <label for="title">Titre du message :</label>
           <input
@@ -27,18 +27,13 @@
           ></textarea>
         </div>
 
-        <div class="button">
-          <input
-            type="file"
-            @change="onFileChange"
-            id="image"
-            name="image"
-            accept="image/png, image/jpeg, image/gif"
-          />
-          <button type="submit" id="envoi" class="btn btn-danger">
-            Envoyer
-          </button>
-        </div>
+<div>
+  <input type="file" name="file" @change="onFileSelected">
+  <button @click="onUpload">YO</button>
+
+</div>
+
+
       </form>
       <button v-on:click="sendPost">Envoyer</button>
     </div>
@@ -51,10 +46,11 @@ export default {
   components: {},
   data() {
     return {
+      selectedFile: null,
       inputPost: {
         title: "",
         content: "",
-        gifFile: "",
+        file: "",
       },
       userId: "",
     };
@@ -64,12 +60,21 @@ export default {
     console.log(this.userId);
   },
   methods: {
+    onFileSelected(event) {
+      this.selectedFile = event.target.files[0]
+      console.log(this.selectedFile);
+    },
+    onUpload() {
+      const fd = new FormData();
+      fd.set('image', this.selectedFile, this.selectedFile.name)
+      console.log(fd.image)
+    },
     sendPost() {
       let deliverPost = {
         title: this.inputPost.title,
         content: this.inputPost.content,
         userId: this.userId,
-        image: this.gifFile,
+        image: this.image,
       };
       console.log(deliverPost);
       let url = "http://localhost:3000/api/posts";
@@ -100,16 +105,12 @@ export default {
         // .then(this.$router.push("/feed"))
         .catch((error) => console.log(error));
     },
-    onFileChange: function(e) {
-      const files = e.target.files || e.dataTransfer.files;
-      if (files.length === 0) {
-        return;
-      }
-      const reader = new FileReader();
-      reader.readAsDataURL(files[0]);
-      reader.onload = () => {
-        this.gifFile = reader.result
-      }
+    upload(event) {
+      let data = new FormData();
+      let file = event.target.files[0];
+      console.log(file);
+      data.set("image", file);
+      console.log(data);
     },
   },
 };
@@ -117,7 +118,7 @@ export default {
 
 <style lang="css">
 .blocAddPost {
-    border: 8px solid black;
-    border-radius: 20px;
+  border: 8px solid black;
+  border-radius: 20px;
 }
 </style>

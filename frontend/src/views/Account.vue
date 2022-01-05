@@ -34,7 +34,9 @@ export default {
         }
     },
     mounted() {
-        let url = `http://localhost:3000/api/auth/${ this.userAccount.userId }`;
+        let url = `http://localhost:3000/api/users/${ localStorage.getItem("userId") }`;
+        console.log(url);
+        console.log(localStorage.getItem("userId"))
         let options = {
             method: "GET",
             headers: {
@@ -72,7 +74,7 @@ export default {
                 .catch(error => console.log(error))
         },
         deleteAccount() {
-            let url = `http://localhost:3000/api/auth/${ this.userAccount.userId }`;
+            let url = `http://localhost:3000/api/users/${ this.userAccount.userId }`;
             let options = {
                 method: "DELETE",
                 headers: {

@@ -18,6 +18,21 @@ exports.getAllUsers = async (req, res, next) => {
     }
 }
 
+exports.getOneUser = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const user = await prisma.user.findUnique({
+            where: {
+                id: Number(id)
+            },
+            include: { posts: true },
+        })
+        res.json(user)
+    } catch (error) {
+        next(error)
+    }
+}
+
 // #2 Post newUser
 
 exports.signup = async (req, res, next) => {
@@ -78,3 +93,19 @@ exports.login = async (req, res, next) => {
         next(error)
     }
 }
+
+// #4 Delete post by id
+
+exports.deleteUser = async (req, res, next) => {
+    try {
+      const { id } = req.params
+      const deletedUser = await prisma.user.delete({
+        where: {
+          id: Number(id),
+        },
+      })
+      res.json(deletedUser)
+    } catch (error) {
+      next(error)
+    }
+  }
