@@ -1,23 +1,34 @@
 <template>
-    <div id="feed">
-        <h1>Fil d'actualité</h1>
+  <section>
+    <Navbar></Navbar>
+    <AddPost></AddPost>
+    <FeedPosts></FeedPosts>
+    <div class="blocFeed">
+      <h1>Tu es sur le fil d'actualité</h1>
     </div>
+    
+  </section>
 </template>
 
+
 <script>
-    export default {
-        name: 'Feed',
-        data() {
-            return {};
-        }
-    }
+import Navbar from '../components/Navbar'
+import FeedPosts from '../components/FeedPosts'
+import AddPost from "../components/AddPost";
+
+export default {
+  name: "Feed",
+  components: {
+    Navbar,
+    FeedPosts,
+    AddPost
+  },
+};
 </script>
 
-<style scoped>
-    #feed {
-        background-color: #FFFFFF;
-        border: 1px solid #CCCCCC;
-        padding: 20px;
-        margin-top: 10px;
-    }
+<style lang="css">
+.blocFeed {
+    border: 8px solid black;
+    border-radius: 20px;
+}
 </style>

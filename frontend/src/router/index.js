@@ -1,24 +1,45 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import LoginComponent from "../views/Login.vue"
-import FeedComponent from "../views/Feed.vue"
+import Login from '../views/Login.vue'
+import Signup from '../views/Signup.vue'
+import Account from '../views/Account.vue'
+import Feed from '../views/Feed.vue'
+import Infos from '../views/Infos.vue'
 
 Vue.use(VueRouter)
+Vue.use(require('vue-moment'));
 
-export default new VueRouter({
-    routes: [
-        {
-            path: '/login'
-        },
-        {
-            path: "/login",
-            name: "login",
-            component: LoginComponent
-        },
-        {
-            path: "/feed",
-            name: "feed",
-            component: FeedComponent
-        }
-    ]
+const routes = [
+  {
+    path: '/',
+    name: 'Login',
+    component: Login,
+  },
+  {
+    path: '/signup',
+    name: 'Signup',
+    component: Signup,
+  },
+  {
+    path: '/account',
+    name: 'Account',
+    component: Account,
+  },
+  {
+    path: '/feed',
+    name: 'Feed',
+    component: Feed,
+  },
+  {
+    path: '/infos',
+    name: 'Infos',
+    component: Infos,
+  }
+  
+]
+
+const router = new VueRouter({
+  routes
 })
+
+export default router

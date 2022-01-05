@@ -1,17 +1,21 @@
-const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken'); // On a besoin du package jwt //
 
-module.exports = (req, res, next) => {
+module.exports = (req, res, next) => { // On exporte un middleware //
     try {
-        const token = req.headers.authorization.split(' ')[1];
-        const decodedToken = jwt.verify(token, process.env.AUTH_KEY);
-        const user = decodedToken.userId;
-        // Si userId existe, verifier par rapport au userId dans le token
-        if (req.body.user !== user) {
-            throw 'User non valable !';
+        console.log(req.headers)
+        const token = req.headers.authorization.split(' ')[1]; // Récupération du token dans le header dans un tableau split et on retourne le 2ème élément //
+        console.log(token)
+        const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET'); // On décode le token, la clé doit correspondre à celle de la fontion login //
+        console.log(decodedToken)
+        const userId = decodedToken.userId; // On récupére l'userId //
+        console.log(userId)
+        req.decodedToken = decodedToken
+        if (req.body.userId && req.body.userId !== userId) { // Si l'userId du corps de la requête est différent de userId //
+            throw 'User ID non valable'; // Throw pour renvoyer l'erreur //
         } else {
-            next();
+            next();// Tout est ok donc, on passe au prochain middleware //
         }
-    } catch (error) {
-        res.status(401).json({ error: error | 'Requête non authentifiée !' });
+    } catch(error) {
+        res.status(401).json({ error });
     }
 };

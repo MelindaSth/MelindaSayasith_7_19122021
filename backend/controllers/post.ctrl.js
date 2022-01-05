@@ -21,12 +21,13 @@ exports.getAllPosts = async (req, res, next) => {
 
 exports.getPostById = async (req, res, next) => {
   try {
-    const { id } = req.params
+    const { id } = req.params;
     const post = await prisma.post.findUnique({
       where: {
         id: Number(id)
       },
-      include: { author: true }
+      include: { author: true },
+      include: { comments: true }
     })
     res.json(post)
   } catch (error) {
@@ -39,10 +40,14 @@ exports.getPostById = async (req, res, next) => {
 exports.createPost = async (req, res, next) => {
     try {
         const post = await prisma.post.create({
-          data: req.body,
+          data: {
+            title: req.body.title,
+            content: req.body.content
+          }
         })
         res.json(post)
       } catch (error) {
+        console.error(error)
         next(error)
       }
 };

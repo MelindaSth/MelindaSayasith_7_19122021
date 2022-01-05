@@ -1,47 +1,65 @@
 <template>
-    <div id="login">
-        <h1>Connexion</h1>
-        <input type="text" name="email" v-model="input.email" placeholder="Email" />
-        <input type="password" name="password" v-model="input.password" placeholder="Mot de passe" />
-        <button type="button" v-on:click="login()">Se connecter</button>
-    </div>
+     
+        <div class="blocsignup">
+           
+            <h2>Connexion @ Groupomania</h2>
+            <form v-on:submit.prevent="login" id="form-login" >
+              <div class="form-group">
+                <label for="email">E-mail :</label>
+                <input type="email" id="email" name="email" class="form-control" required v-model="inputLogin.email"/>
+              </div>
+              <div class="form-group">
+                <label for="password">Mot de passe :</label>
+                <input type="password" id="password" name="password" class="form-control" required v-model="inputLogin.password"/>
+              </div>   
+              <button type="submit">Connect</button>                                     
+            </form> 
+             <nav class="navlogsign"><p>Pas encore inscrit ? <router-link to="/signup">Rejoignez-nous !</router-link></p></nav>
+        </div>  
 </template>
 
+
 <script>
-    export default {
-        name: 'Login',
-        data() {
-            return {
-                input: {
-                    email: "",
-                    password: ""
-                }
-            }
-        },
-        methods: {
-            login() {
-                if(this.input.email != "" && this.input.password != "") {
-                    if(this.input.email == this.$parent.mockAccount.email && this.input.password == this.$parent.mockAccount.password) {
-                        this.$emit("authenticated", true);
-                        this.$router.replace({ name: "feed" });
-                    } else {
-                        console.log("The username and / or password is incorrect");
-                    }
-                } else {
-                    console.log("A username and password must be present");
-                }
+export default {
+    name: 'Login',
+    data() {
+        return {
+            inputLogin: {
+                email: "",
+                password: ""
             }
         }
+    },
+    methods: {
+        login() {
+            let dataToLogin = {
+                "email": this.inputLogin.email,
+                "password": this.inputLogin.password
+            }
+            console.log(dataToLogin)
+            let url = "http://localhost:3000/api/login"
+            let options = {
+                method: "POST",
+                body: JSON.stringify(dataToLogin),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+            fetch(url, options)
+                .then(res => res.json())
+                .then((res) => {
+                    if (res.userId && res.token) {
+                        localStorage.setItem("userId", res.userId)
+                        localStorage.setItem("token", res.token)
+                        console.log(localStorage)
+                        this.$router.push("feed");
+                        // alert("Tu es maintenant en ligne !");
+                    } else {
+                        alert("Attention, mot de passe erroné !");
+                    }
+                })
+                .catch(error => console.log(error))
+        }
     }
+}
 </script>
-
-<style scoped>
-    #login {
-        width: 500px;
-        border: 1px solid #CCCCCC;
-        background-color: #FFFFFF;
-        margin: auto;
-        margin-top: 200px;
-        padding: 20px;
-    }
-</style>
