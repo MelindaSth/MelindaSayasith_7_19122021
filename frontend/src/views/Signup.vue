@@ -77,6 +77,8 @@
 
 
 <script>
+import axios from "axios";
+
 export default {
   name: "Signup",
   data() {
@@ -90,6 +92,12 @@ export default {
       },
     };
   },
+  mounted() {
+    axios
+      .post("http://localhost:3000/api/signup")
+      .then((res) => res.json())
+      .catch((error) => console.log(error));
+  },
   methods: {
     signup() {
       let inputDatas = {
@@ -100,25 +108,10 @@ export default {
         password: this.inputSignup.password,
       };
       console.log(inputDatas);
-      let url = "http://localhost:3000/api/signup";
-      let options = {
-        method: "POST",
-        body: JSON.stringify(inputDatas),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-      console.log(options);
-      fetch(url, options)
-        .then((res) => res.json())
-        .then(() => {
-            this.$router.push("/");
-            alert(
-              " Bienvenue sur Groupomania Connect ! Connectez-vous dès à présent !"
-            );
-          }
-        )
-        .catch((error) => console.log(error));
+      this.$router.push("/");
+      alert(
+        " Bienvenue sur Groupomania Connect ! Connectez-vous dès à présent !"
+      );
     },
   },
 };
