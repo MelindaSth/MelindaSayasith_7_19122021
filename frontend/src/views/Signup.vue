@@ -1,72 +1,71 @@
 <template>
-  <div class="blocsignup">
-    <h2>Pour rejoindre la communauté, merci de remplir ce formulaire</h2>
-    <form v-on:submit.prevent="signup" id="form-signup">
-      <div class="form-group">
-        <label for="lastname">Nom :</label>
+  <div class="signup">
+    <h2 id="signup__title">Inscription</h2>
+    <form v-on:submit.prevent="signup" id="signup__form">
+        <label for="lastname" class="signup__label">Nom :</label>
         <input
           type="text"
           id="lastname"
           name="lastname"
-          class="form-control"
+          class="signup__input"
+          placeholder="Nom"
           required
           pattern="^[^&amp;<>@&quot;()'!_$*€£`+=\/;?#]+$"
           v-model="inputSignup.lastname"
         />
-      </div>
-      <div class="form-group">
-        <label for="firstname">Prénom :</label>
+        <label for="firstname" class="signup__label">Prénom :</label>
         <input
           type="text"
           id="firstname"
           name="firstname"
-          class="form-control"
+          class="signup__input"
+          placeholder="Prénom"
           required
           pattern="^[^&amp;<>@&quot;()'!_$*€£`+=\/;?#]+$"
           v-model="inputSignup.firstname"
         />
-      </div>
-      <div class="form-group">
-        <label for="jobtitle">Fonction :</label>
+
+        <label for="jobtitle" class="signup__label">Fonction :</label>
         <input
           type="text"
           id="jobtitle"
           name="jobtitle"
-          class="form-control"
+          class="signup__input"
+          placeholder="Intitulé du poste de travail"
           required
           pattern="^[^&amp;<>@&quot;()'!_$*€£`+=\/;?#]+$"
           v-model="inputSignup.jobtitle"
         />
-      </div>
-      <div class="form-group">
-        <label for="email">E-mail :</label>
+ 
+  
+        <label for="email" class="signup__label">E-mail :</label>
         <input
           type="email"
           id="email"
           name="email"
-          class="form-control"
+          class="signup__input"
+          placeholder="E-mail"
           required
           pattern="[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+.[a-zA-Z.]{2,15}"
           v-model="inputSignup.email"
         />
-      </div>
-      <div class="form-group">
-        <label for="password">Mot de passe :</label>
+
+        <label for="password" class="signup__label">Mot de passe :</label>
         <input
           type="password"
           id="password"
           name="password"
-          class="form-control"
+          class="signup__input"
+          placeholder="Mot de passe"
           required
           pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
           v-model="inputSignup.password"
         />
-      </div>
-      <p>Minimum 8 caractères dont 1 Majuscule, 1 minuscule et un chiffre</p>
-      <button>Connect</button>
+      <p class="signup__info">Minimum 8 caractères dont 1 Majuscule, 1 minuscule et un chiffre</p>
+      <button class="signup__button">Inscription</button>
     </form>
 
-    <nav class="navlogsign">
+    <nav class="login__invitation">
       <p>
         Vous avez déjà un compte ?
         <router-link to="/">Connectez-vous</router-link>
@@ -125,4 +124,61 @@ export default {
 </script>
 
 <style lang="css">
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+.signup {
+  font-family: "roboto";
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  border-radius: 10px;
+  box-shadow: 0 0 40px rgb(8 7 16 / 60%);
+  padding: 15px 35px;
+}
+#signup__title {
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 42px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.signup__label {
+  display: block;
+  margin-top: 15px;
+  font-size: 16px;
+  font-weight: 500;
+}
+.signup__input {
+  display: block;
+  height: 50px;
+  width: 100%;
+  border-radius: 3px;
+  padding: 0 10px;
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 300;
+}
+.signup__button {
+  margin-top: 50px;
+  width: 100%;
+  padding: 15px 0;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.signup__info {
+  font-size: 10px;
+}
+.login__invitation {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 42px;
+  text-align: center;
+}
 </style>
