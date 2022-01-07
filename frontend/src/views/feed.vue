@@ -2,11 +2,10 @@
   <section>
     <Navbar></Navbar>
     <AddPost></AddPost>
-    <FeedPosts></FeedPosts>
     <div class="blocFeed">
       <h1>Tu es sur le fil d'actualité</h1>
+      <FeedPosts></FeedPosts>
     </div>
-    
   </section>
 </template>
 

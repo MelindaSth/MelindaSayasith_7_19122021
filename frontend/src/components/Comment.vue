@@ -1,83 +1,96 @@
 <template>
-        <div>    
-            <!-- Répondre  -->
-            <div class="blocanswer">
-                <textarea type="text" id="content" name="content" rows="2" class="form-control" v-model="content" 
-                placeholder="Insérer votre nom puis votre commentaire svp..."></textarea>
-                <a v-on:click="createComment()"><i class="far fa-paper-plane" title="Envoyer"></i></a>          
-            </div>
+  <div id="#comments">
+    <div class="blockcomment">
+      <div v-for="comment in comments" :key="comment.id" class="blocanswers">
+        <p>{{ comment.content }}</p>
+      </div>
+    </div>
 
-        <!-- Liste des réponses  -->
-                <div> 
-                    <div v-for="comment in comments" :key="comment.id" class="blocanswers" >                        
-                        <p> {{ comment.content }} </p>           
-                    </div>
-                </div>
-        </div>
+    <div class="blocanswer">
+      <form>
+        <label for="content">Votre commentaire</label>
+
+        <textarea
+          type="text"
+          id="content"
+          name="content"
+          rows="2"
+          class="form-control"
+          v-model="content"
+          placeholder="Insérer votre commentaire svp..."
+        ></textarea>
+
+        <button v-on:click="createComment()">
+          click<i class="far fa-paper-plane" title="Envoyer"></i>
+        </button>
+      </form>
+    </div>
+  </div>
 </template>
 
 
 <script >
 export default {
-    name: "Comments",
-    data() {
-        return {
-            comment: "",
-            comments: [],
-        }
+  name: "Comments",
+  data() {
+    return {
+      comments: [],
+      content: "",
+    };
+  },
+  // Passer des données aux composants enfants avec les props
+  props: {
+    postId: Number,
+    postUserId: Number,
+  },
+  mounted() {
+    // Get comment pour un post
+    let url = `http://localhost:3000/api/comment/${this.postId}`;
+    let options = {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    };
+    fetch(url, options)
+      .then((response) => response.json())
+      .then((data) => {
+        this.comments = data;
+      })
+      .catch((error) => console.log(error));
+  },
+  methods: {
+    // Post a comment - créer un comment 
+    createComment() {
+      let inputContent = {
+        content: this.content,
+        userId: Math.abs(localStorage.getItem("userId")),
+        postId: this.postId,
+      };
+      let url = "http://localhost:3000/api/comment";
+      let options = {
+        method: "POST",
+        body: JSON.stringify(inputContent),
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+          "Content-Type": "application/json",
+        },
+      };
+      fetch(url, options)
+        .then((res) => res.json())
+        .then((res) => {
+          if (res.ok) {
+            this.content = {};
+          } else {
+            alert("Commentaire envoyé 🖅");
+          }
+        })
+        .then(window.location.reload())
+        .catch((error) => console.log(error));
     },
-    //Passer des données aux composants enfants avec les props//
-    props: {
-        postId: Number,
-        postUserId: Number,
-    },
-    mounted() {
-        ///////////////////GET ANSWERS/////////////////////
-        let url = "http://localhost:3000/api/comments/" + this.postId + "/display";
-        let options = {
-            method: "GET",
-            headers: {
-                'Authorization': 'Bearer ' + localStorage.getItem("token"),
-            }
-        };
-        fetch(url, options)
-            .then(response => response.json())
-            .then(data => {
-                console.log(data)
-                this.comments = data;
-                console.log(this.comments)
-            })
-            .catch(error => console.log(error))
-    },
-    methods: {
-        ///////////////////CREATE ANSWER///////////////////// 
-        createComment() {
-            let inputContent = {
-                "content": this.content,
-                "postId": this.postId
-            }
-            let url = "http://localhost:3000/api/comments/new"
-            let options = {
-                method: "POST",
-                body: JSON.stringify(inputContent),
-                headers: {
-                    'Authorization': 'Bearer ' + localStorage.getItem("token"),
-                    'Content-Type': 'application/json'
-                }
-            }
-            fetch(url, options)
-                .then(res => res.json())
-                .then((res) => {
-                    console.log(res)
-                    if (res.ok) {
-                        this.content = {}
-                    } else {
-                        alert("Commentaire envoyé 🖅");
-                    }
-                })
-                .then(window.location.reload())
-                .catch(error => console.log(error))
-        }
-    },
-}
+  },
+};
 </script>
+
+<style scoped>
+</style>

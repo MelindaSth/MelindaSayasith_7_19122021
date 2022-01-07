@@ -38,12 +38,9 @@ exports.getPostById = async (req, res, next) => {
 // #3 Post 'post'
 
 exports.createPost = async (req, res, next) => {
-    try {
+  try {
         const post = await prisma.post.create({
-          data: {
-            title: req.body.title,
-            content: req.body.content
-          }
+          data: req.body
         })
         res.json(post)
       } catch (error) {

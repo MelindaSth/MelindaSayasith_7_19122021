@@ -1,6 +1,22 @@
 const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 
+// #4 Get allCommentOfPost
+
+exports.getAllCommentOfPost = async (req, res, next) => {
+  try {
+
+    const comments = await prisma.comment.findMany({
+      where: {
+        postId: Number(req.params.id)
+        }      
+    })
+    res.json(comments)
+  } catch (error) {
+    next(error)
+  }
+};
+
 // #1 Post 'comment'
 
 exports.createComment = async (req, res, next) => {

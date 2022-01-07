@@ -27,12 +27,10 @@
           ></textarea>
         </div>
 
-<div>
-  <input type="file" name="file" @change="onFileSelected">
-  <button @click="onUpload">YO</button>
-
-</div>
-
+<!-- <div>
+<input type="file" name="file" @change="onFileSelected">
+<button @click="onUpload">YO</button>
+</div> -->
 
       </form>
       <button v-on:click="sendPost">Envoyer</button>
@@ -52,29 +50,22 @@ export default {
         content: "",
         file: "",
       },
-      userId: "",
+      userId: localStorage.getItem("userId"),
     };
   },
-  mounted() {
-    this.userId = JSON.parse(localStorage.getItem("userId"));
-    console.log(this.userId);
-  },
   methods: {
-    onFileSelected(event) {
-      this.selectedFile = event.target.files[0]
-      console.log(this.selectedFile);
-    },
-    onUpload() {
-      const fd = new FormData();
-      fd.set('image', this.selectedFile, this.selectedFile.name)
-      console.log(fd.image)
-    },
+// onFileSelected(event) {
+//   this.selectedFile = event.target.files[0];
+// },
+// onUpload() {
+//   const fd = new FormData();
+//   fd.set("image", this.selectedFile, this.selectedFile.name);
+// },
     sendPost() {
       let deliverPost = {
         title: this.inputPost.title,
         content: this.inputPost.content,
-        userId: this.userId,
-        image: this.image,
+        userId: Math.abs(localStorage.getItem("userId")),
       };
       console.log(deliverPost);
       let url = "http://localhost:3000/api/posts";
@@ -87,31 +78,22 @@ export default {
         },
       };
       fetch(url, options)
-        // .then((res) => res.json())
         .then((res) => {
-          res.json();
           console.log(res);
-          if (res.ok) {
-            const data = res.json();
-            console.log(data);
-            this.post = data;
-            console.log(this.post);
-            window.location.reload();
-            this.inputPost = {}; // Retour à 0 des inputs //
-          } else {
-            alert("Post bien reçu 🖅");
-          }
+          window.location.reload();
+          this.inputPost = {}; // Retour à 0 des inputs //
         })
-        // .then(this.$router.push("/feed"))
-        .catch((error) => console.log(error));
+        .catch((error) => {
+          console.log(error);
+        });
+      //     .then(this.$router.push("/feed"))
+      //     .catch((error) => console.log(error));
     },
-    upload(event) {
-      let data = new FormData();
-      let file = event.target.files[0];
-      console.log(file);
-      data.set("image", file);
-      console.log(data);
-    },
+    // upload(event) {
+    //   let data = new FormData();
+    //   let file = event.target.files[0];
+    //   data.set("image", file);
+    // },
   },
 };
 </script>
