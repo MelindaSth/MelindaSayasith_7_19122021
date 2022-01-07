@@ -1,21 +1,19 @@
 <template>
   <div>
-    <div v-for="post in posts" :key="post.id" class="blocFeed">
-      <div class="blocmessage">
-        <h4><i class="fas fa-angle-double-right"></i> {{ post.title }}</h4>
-        <h5 class="pmessage">
-          <i class="fas fa-angle-right"></i>" {{ post.content }} "
-        </h5>
+    <div v-for="post in posts" :key="post.id" class="feed">
+      <div class="feed__content">
+        <h4 class="feed__content__title">{{ post.title }}</h4>
+        <p class="feed__content__text">" {{ post.content }} "</p>
       </div>
-      <p>{{ post.author.lastname }} {{ post.author.firstname }}</p>
-      <div class="blocactions">
+      <p class="feed_content__postby">Posté par {{ post.author.lastname }} {{ post.author.firstname }}</p>
+      <div class="actions__deletePost">
         <button
           v-if="post.author.id == userId || isAdmin == true"
           type="button"
           @click="deletePost(post.id)"
-          class="accountbutton"
+          class="deletePost__button"
         >
-          Supprimez
+          Supprimer le post
         </button>
       </div>
       <Comment :postId="post.id" :postUserId="post.userId"></Comment>
@@ -86,4 +84,32 @@ export default {
 </script>
 
 <style lang="css">
+.feed {
+  font-family: "roboto";
+  border-radius: 10px;
+  box-shadow: 0 0 40px rgb(8 7 16 / 60%);
+  display: flex;
+  margin: 20px;
+  padding: 20px;
+  flex-direction: column;
+}
+.feed__content__title {
+  font-size: 25px;
+  font-weight: 500;
+  line-height: 42px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.feed__content__text {
+  border-radius: 10px;
+  box-shadow: 0 0 5px rgb(8 7 16 / 50%);
+  padding: 25px;
+}
+.feed_content__postby {
+  margin: 10px;
+  text-align: right;
+  font-size: 15px;
+}
 </style>

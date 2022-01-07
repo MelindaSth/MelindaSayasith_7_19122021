@@ -1,37 +1,29 @@
 <template>
   <section>
-    <div class="blocAddPost">
-      <h2>Exprimez-vous ! Partagez !</h2>
-      <form id="form-signup" enctype="multipart/form-data">
-        <div class="form-group">
-          <label for="title">Titre du message :</label>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            class="form-control"
-            required
-            v-model="inputPost.title"
-          />
-        </div>
-        <div class="form-group">
-          <label for="content">Contenu :</label>
-          <textarea
-            type="text"
-            id="content"
-            name="content"
-            rows="10"
-            class="form-control"
-            required
-            v-model="inputPost.content"
-          ></textarea>
-        </div>
+    <div class="addingPost">
+      <h2 id="addingPost__title">Partagez votre humeur...</h2>
 
-<!-- <div>
-<input type="file" name="file" @change="onFileSelected">
-<button @click="onUpload">YO</button>
-</div> -->
+      <form id="addingPost__form" enctype="multipart/form-data">
+        <label for="title" class="addingPost__label">Titre du message :</label>
+        <input
+          type="text"
+          id="title"
+          name="title"
+          class="addingPost__input"
+          required
+          v-model="inputPost.title"
+        />
 
+        <label for="content" class="addingPost__label">Contenu :</label>
+        <textarea
+          type="text"
+          id="content"
+          name="content"
+          rows="10"
+          class="addingPost__input"
+          required
+          v-model="inputPost.content"
+        ></textarea>
       </form>
       <button v-on:click="sendPost">Envoyer</button>
     </div>
@@ -54,13 +46,6 @@ export default {
     };
   },
   methods: {
-// onFileSelected(event) {
-//   this.selectedFile = event.target.files[0];
-// },
-// onUpload() {
-//   const fd = new FormData();
-//   fd.set("image", this.selectedFile, this.selectedFile.name);
-// },
     sendPost() {
       let deliverPost = {
         title: this.inputPost.title,
@@ -89,14 +74,44 @@ export default {
       //     .then(this.$router.push("/feed"))
       //     .catch((error) => console.log(error));
     },
-    // upload(event) {
-    //   let data = new FormData();
-    //   let file = event.target.files[0];
-    //   data.set("image", file);
-    // },
   },
 };
 </script>
 
 <style lang="css">
+.addingPost {
+  font-family: "roboto";
+  border-radius: 10px;
+  box-shadow: 0 0 40px rgb(8 7 16 / 60%);
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: 20px;
+  padding: 20px;
+}
+#addingPost__title {
+  font-size: 25px;
+  font-weight: 500;
+  line-height: 42px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.addingPost__label {
+  display: block;
+  margin-top: 15px;
+  font-size: 16px;
+  font-weight: 500;
+}
+.addingPost__input {
+  display: block;
+  height: 50px;
+  width: 100%;
+  border-radius: 3px;
+  padding: 0 10px;
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 300;
+}
 </style>

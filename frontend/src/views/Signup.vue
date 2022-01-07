@@ -58,10 +58,10 @@
           class="signup__input"
           placeholder="Mot de passe"
           required
-          pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
+          pattern="(?=^.{5,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
           v-model="inputSignup.password"
         />
-      <p class="signup__info">Minimum 8 caractères dont 1 Majuscule, 1 minuscule et un chiffre</p>
+      <p class="signup__info">Minimum 5 caractères dont 1 Majuscule, 1 minuscule et un chiffre</p>
       <button class="signup__button">Inscription</button>
     </form>
 
