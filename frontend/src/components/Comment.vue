@@ -83,7 +83,7 @@ export default {
           if (res.ok) {
             this.content = {};
           } else {
-            alert("Commentaire envoyé 🖅");
+            alert("Commentaire envoyé");
           }
         })
         .then(window.location.reload())
@@ -106,6 +106,7 @@ export default {
 .comment__container__content {
   font-style: italic;
   margin-left: 10px;
+  color: grey;
 }
 .addingComment {
   display: flex;

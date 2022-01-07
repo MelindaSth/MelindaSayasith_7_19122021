@@ -1,8 +1,7 @@
 <template>
      <section>
          <Navbar></Navbar>
-
-            <div class="blocsignup">
+            <div class="account">
                 <h2>Gestion du compte de {{ userAccount.firstname }} {{ userAccount.lastname }}</h2>
                 <p>Vous êtes {{ userAccount.jobtitle }} chez Groupomania.</p>
                 <ul>
@@ -100,3 +99,16 @@ export default {
     },
 } 
 </script>
+
+<style lang="css">
+.account {
+  font-family: 'roboto';
+  border-radius: 10px;
+  box-shadow: 0 0 40px rgb(8 7 16 / 60%);
+  display: flex;
+  flex-direction: column;;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: 20px;
+}
+</style>

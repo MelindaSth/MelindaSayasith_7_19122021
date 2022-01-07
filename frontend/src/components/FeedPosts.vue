@@ -5,7 +5,9 @@
         <h4 class="feed__content__title">{{ post.title }}</h4>
         <p class="feed__content__text">" {{ post.content }} "</p>
       </div>
-      <p class="feed_content__postby">Posté par {{ post.author.lastname }} {{ post.author.firstname }}</p>
+      <p class="feed_content__postby">
+        Posté par {{ post.author.lastname }} {{ post.author.firstname }}
+      </p>
       <div class="actions__deletePost">
         <button
           v-if="post.author.id == userId || isAdmin == true"
@@ -101,6 +103,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 10px;
 }
 .feed__content__text {
   border-radius: 10px;
@@ -111,5 +114,8 @@ export default {
   margin: 10px;
   text-align: right;
   font-size: 15px;
+}
+.deletePost__button {
+  margin: 10px;
 }
 </style>
