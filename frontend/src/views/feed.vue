@@ -26,8 +26,4 @@ export default {
 </script>
 
 <style lang="css">
-.blocFeed {
-    border: 8px solid black;
-    border-radius: 20px;
-}
 </style>

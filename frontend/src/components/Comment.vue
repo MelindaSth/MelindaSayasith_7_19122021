@@ -1,6 +1,6 @@
 <template>
   <div id="#comments">
-    <div class="blockcomment">
+    <div class="blocComments">
       <div v-for="comment in comments" :key="comment.id" class="blocanswers">
         <p>{{ comment.content }}</p>
       </div>
@@ -92,5 +92,5 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="css">
 </style>

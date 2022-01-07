@@ -99,8 +99,4 @@ export default {
 </script>
 
 <style lang="css">
-.blocAddPost {
-  border: 8px solid black;
-  border-radius: 20px;
-}
 </style>
