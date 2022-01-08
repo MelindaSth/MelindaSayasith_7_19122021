@@ -42,21 +42,20 @@ export default {
         content: "",
         file: "",
       },
-      userId: localStorage.getItem("userId"),
+      Id: Math.abs(localStorage.getItem("userId")),
     };
   },
   methods: {
     sendPost() {
-      let deliverPost = {
+      let data = {
         title: this.inputPost.title,
         content: this.inputPost.content,
         userId: Math.abs(localStorage.getItem("userId")),
       };
-      console.log(deliverPost);
       let url = "http://localhost:3000/api/posts";
       let options = {
         method: "POST",
-        body: JSON.stringify(deliverPost),
+        body: JSON.stringify(data),
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
           "Content-Type": "application/json",
@@ -64,9 +63,9 @@ export default {
       };
       fetch(url, options)
         .then((res) => {
-          console.log(res);
-          window.location.reload();
-          this.inputPost = {}; // Retour à 0 des inputs //
+          console.log(res)
+          // window.location.reload();
+           this.inputPost = {};
         })
         .catch((error) => {
           console.log(error);

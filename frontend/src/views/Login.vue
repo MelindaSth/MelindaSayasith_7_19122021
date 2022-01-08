@@ -58,7 +58,6 @@ export default {
         email: this.inputLogin.email,
         password: this.inputLogin.password,
       };
-      console.log(dataToLogin);
       let url = "http://localhost:3000/api/login";
       let request = {
         method: "POST",
@@ -67,7 +66,6 @@ export default {
           "Content-Type": "application/json",
         },
       };
-      console.log(request);
       fetch(url, request)
         .then((res) => res.json())
         .then((res) => {

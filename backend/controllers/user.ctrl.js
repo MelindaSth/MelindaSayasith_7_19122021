@@ -70,12 +70,12 @@ exports.login = async (req, res, next) => {
         });
         console.log(user)
         if (!user) {
-            return res.status(401).json({ error: "User unknow" })
+            return res.status(401).json({ error: "Utilisateur inconnu" })
         } else
             bcrypt.compare(password, user.password)
                 .then(valid => {
                     if (!valid) {
-                        return res.status(401).json({ error: 'Wrong password !' });
+                        return res.status(401).json({ error: 'Mot de passe faux' });
                     }
                     res.status(200).json({
                         userId: user.id,
@@ -84,6 +84,7 @@ exports.login = async (req, res, next) => {
                             process.env.AUTH_KEY,
                             { expiresIn: '24h' }
                         ),
+                        isAdmin: user.isAdmin,
                     });
                 })
                 .catch(error => res.status(500).json(error));

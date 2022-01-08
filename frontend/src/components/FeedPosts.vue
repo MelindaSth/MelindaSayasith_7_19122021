@@ -45,23 +45,24 @@ export default {
     let urlUser = `http://localhost:3000/api/users/${localStorage.getItem(
       "userId"
     )}`;
+    console.log(localStorage.getItem("token"))
     let request = {
       method: "GET",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     };
+    fetch(urlUser, request)
+      .then((response) => response.json())
+      .then((data) => {
+        this.isAdmin = data.isAdmin;
+      });
     fetch(urlPost, request)
       .then((response) => response.json())
       .then((data) => {
         this.posts = data.posts;
       })
       .catch((error) => console.log(error));
-    fetch(urlUser, request)
-      .then((response) => response.json())
-      .then((data) => {
-        this.isAdmin = data.isAdmin;
-      });
   },
   methods: {
     // Suppression du Post
