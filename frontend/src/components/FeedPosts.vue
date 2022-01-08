@@ -35,16 +35,13 @@ export default {
       // Data dans sa globalité
       posts: [],
       userId: localStorage.getItem("userId"),
-      isAdmin: "",
+      isAdmin: false,
     };
   },
   mounted() {
     this.userId = JSON.parse(localStorage.getItem("userId"));
-    this.isAdmin = JSON.parse(localStorage.getItem("isAdmin"));
     let urlPost = "http://localhost:3000/api/posts";
-    let urlUser = `http://localhost:3000/api/users/${localStorage.getItem(
-      "userId"
-    )}`;
+    let urlUser = `http://localhost:3000/api/users/${localStorage.getItem("userId")}`;
     console.log(localStorage.getItem("token"))
     let request = {
       method: "GET",
@@ -74,6 +71,12 @@ export default {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
       };
+      let urlComment = `http://localhost:3000/api/comment/post/${postId}`;
+      fetch(urlComment, request)
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => console.log(error));
       fetch(url, request)
         .then((response) => {
           console.log(response);

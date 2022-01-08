@@ -7,6 +7,9 @@ exports.getAllPosts = async (req, res, next) => {
     try {
         const posts = await prisma.post.findMany({
           include: { author: true },
+          orderBy: {
+            id: "desc"
+          }
         })
         const users = await prisma.user.findMany({
           include: { posts: true },

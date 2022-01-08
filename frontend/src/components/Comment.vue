@@ -1,9 +1,23 @@
 <template>
   <div id="#comments">
     <div class="comment__list">
-      <div v-for="comment in comments" :key="comment.id" class="comment__container">
+      <div
+        v-for="comment in comments"
+        :key="comment.id"
+        class="comment__container"
+      >
         <p class="comment__container__title">Commentaires :</p>
         <p class="comment__container__content">{{ comment.content }}</p>
+        <p>Écrit par {{ comment.author.lastname }}</p>
+
+        <button
+          v-if="comment.author.id == userId || isAdmin == true"
+          type="button"
+          @click="deleteComment(comment.id)"
+          class="deletePost__button"
+        >
+          Supprimer le com
+        </button>
       </div>
     </div>
 
@@ -37,6 +51,8 @@ export default {
     return {
       comments: [],
       content: "",
+      userId: localStorage.getItem("userId"),
+      isAdmin: "false",
     };
   },
   // Passer des données aux composants enfants avec les props
@@ -47,16 +63,23 @@ export default {
   mounted() {
     // Get comment pour un post
     let url = `http://localhost:3000/api/comment/${this.postId}`;
+    let urlUser = `http://localhost:3000/api/users/${localStorage.getItem("userId")}`;
     let options = {
       method: "GET",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     };
+        fetch(urlUser, options)
+      .then((response) => response.json())
+      .then((data) => {
+        this.isAdmin = data.isAdmin;
+      });
     fetch(url, options)
       .then((response) => response.json())
       .then((data) => {
         this.comments = data;
+        console.log(data)
       })
       .catch((error) => console.log(error));
   },
@@ -89,6 +112,20 @@ export default {
         .then(window.location.reload())
         .catch((error) => console.log(error));
     },
+    deleteComment(id) {
+      let urlComment = `http://localhost:3000/api/comment/${id}`
+      let options = {
+      method: "DELETE",
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      };
+      fetch(urlComment, options)
+      .then((response) => {
+        console.log(response)
+      })
+      .catch((error) => console.log(error))
+    }
   },
 };
 </script>
