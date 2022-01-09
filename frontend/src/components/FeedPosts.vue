@@ -3,21 +3,27 @@
     <div v-for="post in posts" :key="post.id" class="feed">
       <div class="feed__content">
         <h4 class="feed__content__title">{{ post.title }}</h4>
-        <p class="feed__content__text">" {{ post.content }} "</p>
-        <img :src="post.imageUrl" alt="Image du post">
+        <div class="feed__content__container">
+          <p class="feed__content__text">" {{ post.content }} "</p>
+          <img
+            :src="post.imageUrl"
+            alt="Image du post"
+            class="feed__content__img"
+          />
+        </div>
       </div>
       <p class="feed_content__postby">
         Posté par {{ post.author.lastname }} {{ post.author.firstname }}
-      </p>
-      <div class="actions__deletePost">
         <button
           v-if="post.author.id == userId || isAdmin == true"
           type="button"
           @click="deletePost(post.id)"
-          class="deletePost__button"
+          class="button"
         >
-          Supprimer le post
+          <font-awesome-icon icon="fa-regular fa-trash-alt"/>
         </button>
+      </p>
+      <div class="actions__deletePost">
       </div>
       <Comment :postId="post.id" :postUserId="post.userId"></Comment>
     </div>
@@ -96,11 +102,12 @@ export default {
 .feed {
   font-family: "roboto";
   border-radius: 10px;
-  box-shadow: 0 0 40px rgb(8 7 16 / 60%);
   display: flex;
   margin: 20px;
   padding: 20px;
   flex-direction: column;
+  background-color: #1b2d4a;
+  color: #f4f7f9;
 }
 .feed__content__title {
   font-size: 25px;
@@ -112,17 +119,28 @@ export default {
   align-items: center;
   margin-bottom: 10px;
 }
-.feed__content__text {
+.feed__content__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   border-radius: 10px;
   box-shadow: 0 0 5px rgb(8 7 16 / 50%);
   padding: 25px;
+  background-color: white;
+}
+.feed__content__text {
+  padding: 20px 0px 20px 0px;
+  color: #1b2d4a;
+}
+.feed__content__img {
+  max-width: 150px;
+  max-height: 150px;
+  object-fit: cover;
 }
 .feed_content__postby {
   margin: 10px;
   text-align: right;
   font-size: 15px;
 }
-.deletePost__button {
-  margin: 10px;
-}
+
 </style>

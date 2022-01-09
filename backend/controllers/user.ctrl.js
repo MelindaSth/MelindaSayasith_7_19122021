@@ -99,14 +99,31 @@ exports.login = async (req, res, next) => {
 
 exports.deleteUser = async (req, res, next) => {
     try {
-      const { id } = req.params
-      const deletedUser = await prisma.user.delete({
-        where: {
-          id: Number(id),
-        },
-      })
-      res.json(deletedUser)
+        const { id } = req.params
+        const deletedUser = await prisma.user.delete({
+            where: {
+                id: Number(id),
+            },
+        })
+        res.json(deletedUser)
     } catch (error) {
-      next(error)
+        next(error)
     }
-  }
+}
+
+// #5 Modify user by id 
+
+exports.modifyUser = async (req, res, next) => {
+    try {
+        const { id } = req.params
+        const modifiedUser = await prisma.user.update({
+            where: {
+                id: Number(id),
+            },
+            data: req.body,
+        })
+        res.json(modifiedUser)
+    } catch (error) {
+        next(error)
+    }
+}

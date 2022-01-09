@@ -2,14 +2,26 @@
      <section>
          <Navbar></Navbar>
             <div class="account">
-                <h2>Gestion du compte de {{ userAccount.firstname }} {{ userAccount.lastname }}</h2>
-                <p>Vous êtes {{ userAccount.jobtitle }} chez Groupomania.</p>
-                <ul>
-                    <li>Nom : {{ userAccount.lastname }}</li>
-                    <li>Prénom : {{ userAccount.firstname }}</li>
-                    <li>Email : {{ userAccount.email }}</li>
-                </ul>
-                <button @click="deleteAccount" class="accountbutton">Supprimez votre compte</button>  
+                <h2 class="account__title">Mon compte <button @click="deleteAccount" class="button"><font-awesome-icon icon="fa-regular fa-trash-alt" /></button>  </h2>
+                    <p>Nom :</p>
+                    <p class="account__content__list">{{ userAccount.lastname }}</p>
+                    <p>Prénom :</p>
+                    <p class="account__content__list">{{ userAccount.firstname }}</p>
+                    <p>E-mail :</p>
+                    <p class="account__content__list">{{ userAccount.email }}</p>
+                    <p>Poste :</p>
+                    <p class="account__content__list">{{ userAccount.jobtitle }}</p>
+                <h2 class="account__title">Modifier mon compte</h2>
+                    <form  @submit.prevent="updateUser()" enctype="multipart/form-data">
+                        <div>
+                            <p>E-mail :</p>
+                            <input type="text" name="email" id="email" placeholder="Nouvel e-mail" v-model="inputAccount.email"><button v-on:click.prevent="updateUser()" class="button"><font-awesome-icon icon="fa-regular fa-paper-plane"/></button>
+                        </div>
+                        <div>
+                            <p>Poste :</p>
+                            <input type="text" name="jobtitle" id="jobtitle" placeholder="Nouveau poste" v-model="inputAccount.jobtitle"><button v-on:click.prevent="updateUser()" class="button"><font-awesome-icon icon="fa-regular fa-paper-plane"/></button>
+                        </div>
+                    </form>
             </div>  
      </section>
 </template>
@@ -31,8 +43,6 @@ export default {
                 jobtitle: ""
             },
             inputAccount: {
-                lastname: "",
-                firstname: "",
                 jobtitle: "",
                 email: ""
             }
@@ -40,8 +50,6 @@ export default {
     },
     mounted() {
         let url = `http://localhost:3000/api/users/${ localStorage.getItem("userId") }`;
-        console.log(url);
-        console.log(localStorage.getItem("userId"))
         let request = {
             method: "GET",
             headers: {
@@ -51,7 +59,6 @@ export default {
         fetch(url, request)
             .then(response => response.json())
             .then(data => {
-                console.log(data)
                 this.userAccount.firstname = data.firstname;
                 this.userAccount.lastname = data.lastname;
                 this.userAccount.email = data.email;
@@ -79,6 +86,26 @@ export default {
                 })
                 .catch(error => console.log(error))
         },
+        updateUser() {
+            const formData = new FormData();
+            formData.append("userId", parseInt(localStorage.getItem("userID")));
+            formData.append("email", this.userAccount.email);
+            formData.append("jobtitle", this.userAccount.jobtitle);
+
+            let url = `http://localhost:3000/api/users/${ this.userAccount.userId }`;
+            let request = {
+                method: "PUT",
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem("token"),
+                    "Content-Type": "multipart/form-data",
+                }
+            };
+            console.log(url)
+            console.log(request)
+            fetch(url, formData, request)
+                .then((response) => console.log(response.json()))
+                .catch(error => console.log(error))
+        },
         deleteAccount() {
             let url = `http://localhost:3000/api/users/${ this.userAccount.userId }`;
             let request = {
@@ -104,11 +131,22 @@ export default {
 .account {
   font-family: 'roboto';
   border-radius: 10px;
-  box-shadow: 0 0 40px rgb(8 7 16 / 60%);
   display: flex;
   flex-direction: column;;
   justify-content: space-evenly;
-  align-items: center;
   margin: 20px;
+  background-color: #eae0c2;
+}
+.account__title {
+    border: solid 2px red;
+    margin-bottom: 20px;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.account__content__list {
+    border: solid 2px green;
+    margin: 20px;
 }
 </style>

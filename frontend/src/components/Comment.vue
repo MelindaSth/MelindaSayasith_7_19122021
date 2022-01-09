@@ -6,18 +6,19 @@
         :key="comment.id"
         class="comment__container"
       >
-        <p class="comment__container__title">Commentaires :</p>
+        <p class="comment__container__title">Réaction :</p>
         <p class="comment__container__content">{{ comment.content }}</p>
-        <p>Écrit par {{ comment.author.lastname }}</p>
-
-        <button
-          v-if="comment.author.id == userId || isAdmin == true"
-          type="button"
-          @click="deleteComment(comment.id)"
-          class="deletePost__button"
-        >
-          Supprimer le com
-        </button>
+        <p class="comment__container_postby">
+          Écrit par {{ comment.author.lastname
+          }}<button
+            v-if="comment.author.id == userId || isAdmin == true"
+            type="button"
+            @click="deleteComment(comment.id)"
+            class="button"
+          >
+            <font-awesome-icon icon="fa-regular fa-trash-alt" />
+          </button>
+        </p>
       </div>
     </div>
 
@@ -36,7 +37,9 @@
             v-model="content"
             placeholder="Insérer votre commentaire"
           ></textarea>
-          <button v-on:click="createComment()">click</button>
+          <button v-on:click="createComment()" class="button">
+            <font-awesome-icon icon="fa-regular fa-paper-plane" />
+          </button>
         </div>
       </form>
     </div>
@@ -63,14 +66,16 @@ export default {
   mounted() {
     // Get comment pour un post
     let url = `http://localhost:3000/api/comment/${this.postId}`;
-    let urlUser = `http://localhost:3000/api/users/${localStorage.getItem("userId")}`;
+    let urlUser = `http://localhost:3000/api/users/${localStorage.getItem(
+      "userId"
+    )}`;
     let options = {
       method: "GET",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     };
-        fetch(urlUser, options)
+    fetch(urlUser, options)
       .then((response) => response.json())
       .then((data) => {
         this.isAdmin = data.isAdmin;
@@ -112,19 +117,19 @@ export default {
         .catch((error) => console.log(error));
     },
     deleteComment(id) {
-      let urlComment = `http://localhost:3000/api/comment/${id}`
+      let urlComment = `http://localhost:3000/api/comment/${id}`;
       let options = {
-      method: "DELETE",
+        method: "DELETE",
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
       };
       fetch(urlComment, options)
-      .then((response) => {
-        console.log(response)
-      })
-      .catch((error) => console.log(error))
-    }
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => console.log(error));
+    },
   },
 };
 </script>
@@ -135,14 +140,16 @@ export default {
   box-shadow: 0 0 5px rgb(8 7 16 / 50%);
   padding: 25px;
   margin-bottom: 10px;
+  background-color: #b5b2ae;
 }
 .comment__container__title {
   margin-bottom: 10px;
+  color: #1b2d4a;
 }
 .comment__container__content {
   font-style: italic;
   margin-left: 10px;
-  color: grey;
+  color: white;
 }
 .addingComment {
   display: flex;
@@ -157,5 +164,10 @@ export default {
 }
 .addingComment__container {
   display: flex;
+}
+.comment__container_postby {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
 }
 </style>

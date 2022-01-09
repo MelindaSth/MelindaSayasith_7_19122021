@@ -25,17 +25,17 @@
           v-model="inputPost.content"
         ></textarea>
 
-        <label for="file"> Media :</label>
+        <label for="file"></label>
         <input
           type="file"
-          class="addingPost__input"
+          class="file-upload-button"
           name="file"
           id="file"
           ref="file"
           @change="selectFile"
         />
 
-        <button v-on:click.prevent="sendPost()">Envoyer</button>
+        <button v-on:click.prevent="sendPost()" class="button"><font-awesome-icon icon="fa-regular fa-paper-plane"/></button>
       </form>
     </div>
   </section>
@@ -58,7 +58,7 @@ export default {
   methods: {
     selectFile() {
       this.inputPost.file = this.$refs.file.files[0];
-      console.log(this.inputPost.file);
+      // console.log(this.inputPost.file);
     },
     sendPost() {
       let url = "http://localhost:3000/api/posts";
@@ -79,41 +79,40 @@ export default {
       };
       fetch(url, options)
         .then((res) => {
-          console.log(res)
+          console.log(res);
         })
         .catch((error) => {
           console.log(error);
-        });      
+        });
       let UrlUploadPhoto = "http://localhost:3000/api/images";
-      let fd = new FormData()
-      fd.append('file' ,this.inputPost.file)
+      let fd = new FormData();
+      fd.append("file", this.inputPost.file);
       let optionsFile = {
         method: "POST",
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
-        body: fd
-      }
-      fetch(UrlUploadPhoto, optionsFile)
-        .then(() => {
-          // console.log(res)
-          // window.location.reload()
+        body: fd,
+      };
+      fetch(UrlUploadPhoto, optionsFile).then(() => {
+        // console.log(res)
+        window.location.reload();
       });
     },
-  }
-}
+  },
+};
 </script>
 
 <style lang="css">
 .addingPost {
   font-family: "roboto";
   border-radius: 10px;
-  box-shadow: 0 0 40px rgb(8 7 16 / 60%);
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   margin: 20px;
   padding: 20px;
+  background-color: #b5b2ae;
 }
 #addingPost__title {
   font-size: 25px;

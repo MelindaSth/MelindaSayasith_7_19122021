@@ -96,7 +96,6 @@ export default {
   top: 50%;
   left: 50%;
   border-radius: 10px;
-  box-shadow: 0 0 40px rgb(8 7 16 / 60%);
   padding: 15px 35px;
 }
 #login__title {
