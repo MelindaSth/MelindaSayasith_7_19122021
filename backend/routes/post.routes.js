@@ -22,6 +22,6 @@ router.delete('/posts/:id', auth, postCtrl.deletePost);
 // #5 Modify post by id
 router.patch('/posts/:id', auth, multer, postCtrl.modifyPost);
 
-router.post('/images', auth, multer);
+router.post('/images', multer);
 
 module.exports = router;

@@ -66,7 +66,7 @@ export default {
         title: this.inputPost.title,
         content: this.inputPost.content,
         userId: Math.abs(localStorage.getItem("userId")),
-        imageUrl: this.inputPost.file.name,
+        imageUrl: `http://localhost:3000/images/${this.inputPost.file.name}`,
       };
       console.log(data);
       let options = {
@@ -95,13 +95,10 @@ export default {
         body: fd
       }
       fetch(UrlUploadPhoto, optionsFile)
-        .then((res) => {
-          console.log(res)
+        .then(() => {
+          // console.log(res)
           // window.location.reload()
-      })
-      .catch((error) => {
-          console.log(error);
-        }); 
+      });
     },
   }
 }

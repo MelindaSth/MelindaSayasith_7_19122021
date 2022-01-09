@@ -47,7 +47,7 @@ exports.createPost = async (req, res, next) => {
           title: req.body.title,
           content: req.body.content,
           userId: req.body.userId,
-          imageUrl: process.env.PATH_IMAGE + req.body.imageUrl
+          imageUrl: req.body.imageUrl
         }
       })
       res.json(post)   
