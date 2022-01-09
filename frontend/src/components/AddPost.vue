@@ -58,7 +58,7 @@ export default {
   methods: {
     selectFile() {
       this.inputPost.file = this.$refs.file.files[0];
-      console.log(this.inputPost.file.name);
+      console.log(this.inputPost.file);
     },
     sendPost() {
       let url = "http://localhost:3000/api/posts";
@@ -66,7 +66,7 @@ export default {
         title: this.inputPost.title,
         content: this.inputPost.content,
         userId: Math.abs(localStorage.getItem("userId")),
-        imageUrl: `http://localhost:3000/images/public/${this.inputPost.file.name}`,
+        imageUrl: this.inputPost.file.name,
       };
       console.log(data);
       let options = {
@@ -79,18 +79,12 @@ export default {
       };
       fetch(url, options)
         .then((res) => {
-          console.log(res);
-
+          console.log(res)
         })
         .catch((error) => {
           console.log(error);
         });      
-        
-        
-
-
       let UrlUploadPhoto = "http://localhost:3000/api/images";
-
       let fd = new FormData()
       fd.append('file' ,this.inputPost.file)
       let optionsFile = {
@@ -101,9 +95,13 @@ export default {
         body: fd
       }
       fetch(UrlUploadPhoto, optionsFile)
-        .then(() => {
+        .then((res) => {
+          console.log(res)
           // window.location.reload()
-      });
+      })
+      .catch((error) => {
+          console.log(error);
+        }); 
     },
   }
 }

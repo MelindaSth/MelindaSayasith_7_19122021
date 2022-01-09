@@ -20,7 +20,7 @@ app.use(morgan('dev'));
 app.use(cors());
 
 app.use(helmet());
-app.use('/images/public', express.static(path.join(__dirname, 'images'))); // Pour toute requête envoyée à /images/, on sert ce dossier statique image //
+app.use('/images/', express.static(path.join(__dirname, 'images'))); // Pour toute requête envoyée à /images/, on sert ce dossier statique image //
 
 app.use('/api', postRoutes);
 app.use('/api', commentRoutes)

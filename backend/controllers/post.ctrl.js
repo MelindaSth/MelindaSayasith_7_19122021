@@ -51,7 +51,7 @@ exports.createPost = async (req, res, next) => {
         }
       })
       res.json(post)   
-    
+      console.log(post)
   } catch (error) {
     console.error(error)
     next(error)

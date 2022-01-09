@@ -2,66 +2,67 @@
   <div class="signup">
     <h2 id="signup__title">Inscription</h2>
     <form v-on:submit.prevent="signup" id="signup__form">
-        <label for="lastname" class="signup__label">Nom :</label>
-        <input
-          type="text"
-          id="lastname"
-          name="lastname"
-          class="signup__input"
-          placeholder="Nom"
-          required
-          pattern="^[^&amp;<>@&quot;()'!_$*€£`+=\/;?#]+$"
-          v-model="inputSignup.lastname"
-        />
-        <label for="firstname" class="signup__label">Prénom :</label>
-        <input
-          type="text"
-          id="firstname"
-          name="firstname"
-          class="signup__input"
-          placeholder="Prénom"
-          required
-          pattern="^[^&amp;<>@&quot;()'!_$*€£`+=\/;?#]+$"
-          v-model="inputSignup.firstname"
-        />
+      <label for="lastname" class="signup__label">Nom :</label>
+      <input
+        type="text"
+        id="lastname"
+        name="lastname"
+        class="signup__input"
+        placeholder="Nom"
+        required
+        pattern="^[^&amp;<>@&quot;()'!_$*€£`+=\/;?#]+$"
+        v-model="inputSignup.lastname"
+      />
+      <label for="firstname" class="signup__label">Prénom :</label>
+      <input
+        type="text"
+        id="firstname"
+        name="firstname"
+        class="signup__input"
+        placeholder="Prénom"
+        required
+        pattern="^[^&amp;<>@&quot;()'!_$*€£`+=\/;?#]+$"
+        v-model="inputSignup.firstname"
+      />
 
-        <label for="jobtitle" class="signup__label">Fonction :</label>
-        <input
-          type="text"
-          id="jobtitle"
-          name="jobtitle"
-          class="signup__input"
-          placeholder="Intitulé du poste de travail"
-          required
-          pattern="^[^&amp;<>@&quot;()'!_$*€£`+=\/;?#]+$"
-          v-model="inputSignup.jobtitle"
-        />
- 
-  
-        <label for="email" class="signup__label">E-mail :</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          class="signup__input"
-          placeholder="E-mail"
-          required
-          pattern="[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+.[a-zA-Z.]{2,15}"
-          v-model="inputSignup.email"
-        />
+      <label for="jobtitle" class="signup__label">Fonction :</label>
+      <input
+        type="text"
+        id="jobtitle"
+        name="jobtitle"
+        class="signup__input"
+        placeholder="Intitulé du poste de travail"
+        required
+        pattern="^[^&amp;<>@&quot;()'!_$*€£`+=\/;?#]+$"
+        v-model="inputSignup.jobtitle"
+      />
 
-        <label for="password" class="signup__label">Mot de passe :</label>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          class="signup__input"
-          placeholder="Mot de passe"
-          required
-          pattern="(?=^.{5,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
-          v-model="inputSignup.password"
-        />
-      <p class="signup__info">Minimum 5 caractères dont 1 Majuscule, 1 minuscule et un chiffre</p>
+      <label for="email" class="signup__label">E-mail :</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        class="signup__input"
+        placeholder="E-mail"
+        required
+        pattern="[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+.[a-zA-Z.]{2,15}"
+        v-model="inputSignup.email"
+      />
+
+      <label for="password" class="signup__label">Mot de passe :</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        class="signup__input"
+        placeholder="Mot de passe"
+        required
+        pattern="(?=^.{5,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
+        v-model="inputSignup.password"
+      />
+      <p class="signup__info">
+        Minimum 5 caractères dont 1 Majuscule, 1 minuscule et un chiffre
+      </p>
       <button class="signup__button">Inscription</button>
     </form>
 
@@ -98,7 +99,7 @@ export default {
         email: this.inputSignup.email,
         password: this.inputSignup.password,
       };
-      console.log(dataToSignup);
+      // console.log(dataToSignup);
       let url = "http://localhost:3000/api/signup";
       let request = {
         method: "POST",
@@ -107,16 +108,15 @@ export default {
           "Content-Type": "application/json",
         },
       };
-      console.log(request);
+      // console.log(request);
       fetch(url, request)
         .then((res) => res.json())
         .then(() => {
-            this.$router.push("/");
-            alert(
-              " Bienvenue sur Groupomania Connect ! Connectez-vous dès à présent !"
-            );
-          }
-        )
+          this.$router.push("/");
+          alert(
+            " Bienvenue sur Groupomania Connect ! Connectez-vous dès à présent !"
+          );
+        })
         .catch((error) => console.log(error));
     },
   },

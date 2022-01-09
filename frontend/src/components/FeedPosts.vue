@@ -4,6 +4,7 @@
       <div class="feed__content">
         <h4 class="feed__content__title">{{ post.title }}</h4>
         <p class="feed__content__text">" {{ post.content }} "</p>
+        <img :src="post.imageUrl" alt="Image du post">
       </div>
       <p class="feed_content__postby">
         Posté par {{ post.author.lastname }} {{ post.author.firstname }}
@@ -41,7 +42,9 @@ export default {
   mounted() {
     this.userId = JSON.parse(localStorage.getItem("userId"));
     let urlPost = "http://localhost:3000/api/posts";
-    let urlUser = `http://localhost:3000/api/users/${localStorage.getItem("userId")}`;
+    let urlUser = `http://localhost:3000/api/users/${localStorage.getItem(
+      "userId"
+    )}`;
     let request = {
       method: "GET",
       headers: {
@@ -52,7 +55,8 @@ export default {
       .then((response) => response.json())
       .then((data) => {
         this.isAdmin = data.isAdmin;
-      });
+      })
+      .catch((error) => console.log(error));
     fetch(urlPost, request)
       .then((response) => response.json())
       .then((data) => {
