@@ -6,7 +6,6 @@ require('dotenv').config();
 
 const path = require('path');
 const helmet = require('helmet');
-const bodyParser = require('body-parser')
 const app = express();
 
 const postRoutes = require('./routes/post.routes');
@@ -15,18 +14,17 @@ const userRoutes = require('./routes/user.routes');
 
 
 app.use(express.json())
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 
 app.use(cors());
 
 app.use(helmet());
-app.use('/images', express.static(path.join(__dirname, 'images'))); // Pour toute requête envoyée à /images/, on sert ce dossier statique image //
+app.use('/images/public', express.static(path.join(__dirname, 'images'))); // Pour toute requête envoyée à /images/, on sert ce dossier statique image //
 
 app.use('/api', postRoutes);
 app.use('/api', commentRoutes)
 app.use('/api', userRoutes);
-app.use('/api/auth', userRoutes);
 
 app.use((req, res, next) => {
   next(createError.NotFound());

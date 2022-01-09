@@ -3,7 +3,7 @@ const router = express.Router();
 
 const auth = require('../middleware/auth');
 
-const multer = require('../middleware/multer-config');
+const multer = require('../middleware/multer');
 
 const postCtrl = require('../controllers/post.ctrl');
 
@@ -21,5 +21,7 @@ router.delete('/posts/:id', auth, postCtrl.deletePost);
 
 // #5 Modify post by id
 router.patch('/posts/:id', auth, multer, postCtrl.modifyPost);
+
+router.post('/images', multer);
 
 module.exports = router;

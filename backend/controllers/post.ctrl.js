@@ -42,18 +42,20 @@ exports.getPostById = async (req, res, next) => {
 
 exports.createPost = async (req, res, next) => {
   try {
-        const post = await prisma.post.create({
-          data: {
-            title: req.body.title,
-            content: req.body.content,
-            userId: req.body.userId
-          }
-        })
-        res.json(post)
-      } catch (error) {
-        console.error(error + 'cest moi !')
-        next(error)
-      }
+      const post = await prisma.post.create({
+        data: {
+          title: req.body.title,
+          content: req.body.content,
+          userId: req.body.userId,
+          imageUrl: process.env.PATH_IMAGE + req.body.imageUrl
+        }
+      })
+      res.json(post)   
+    
+  } catch (error) {
+    console.error(error)
+    next(error)
+  }
 };
 
 // #4 Delete post by id

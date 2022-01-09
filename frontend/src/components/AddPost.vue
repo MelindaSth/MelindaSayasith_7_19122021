@@ -24,8 +24,19 @@
           required
           v-model="inputPost.content"
         ></textarea>
+
+        <label for="file"> Media :</label>
+        <input
+          type="file"
+          class="addingPost__input"
+          name="file"
+          id="file"
+          ref="file"
+          @change="selectFile"
+        />
+
+        <button v-on:click.prevent="sendPost()">Envoyer</button>
       </form>
-      <button v-on:click="sendPost">Envoyer</button>
     </div>
   </section>
 </template>
@@ -36,23 +47,28 @@ export default {
   components: {},
   data() {
     return {
-      selectedFile: null,
       inputPost: {
         title: "",
         content: "",
         file: "",
       },
-      Id: Math.abs(localStorage.getItem("userId")),
+      id: Math.abs(localStorage.getItem("userId")),
     };
   },
   methods: {
+    selectFile() {
+      this.inputPost.file = this.$refs.file.files[0];
+      console.log(this.inputPost.file.name);
+    },
     sendPost() {
-      let data = {
+      let url = "http://localhost:3000/api/posts";
+      const data = {
         title: this.inputPost.title,
         content: this.inputPost.content,
         userId: Math.abs(localStorage.getItem("userId")),
+        imageUrl: `http://localhost:3000/images/public/${this.inputPost.file.name}`,
       };
-      let url = "http://localhost:3000/api/posts";
+      console.log(data);
       let options = {
         method: "POST",
         body: JSON.stringify(data),
@@ -63,18 +79,34 @@ export default {
       };
       fetch(url, options)
         .then((res) => {
-          console.log(res)
-          window.location.reload();
-           this.inputPost = {};
+          console.log(res);
+
         })
         .catch((error) => {
           console.log(error);
-        });
-      //     .then(this.$router.push("/feed"))
-      //     .catch((error) => console.log(error));
+        });      
+        
+        
+
+
+      let UrlUploadPhoto = "http://localhost:3000/api/images";
+
+      let fd = new FormData()
+      fd.append('file' ,this.inputPost.file)
+      let optionsFile = {
+        method: "POST",
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+        body: fd
+      }
+      fetch(UrlUploadPhoto, optionsFile)
+        .then(() => {
+          // window.location.reload()
+      });
     },
-  },
-};
+  }
+}
 </script>
 
 <style lang="css">

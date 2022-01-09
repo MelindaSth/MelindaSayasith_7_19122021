@@ -42,7 +42,6 @@ export default {
     this.userId = JSON.parse(localStorage.getItem("userId"));
     let urlPost = "http://localhost:3000/api/posts";
     let urlUser = `http://localhost:3000/api/users/${localStorage.getItem("userId")}`;
-    console.log(localStorage.getItem("token"))
     let request = {
       method: "GET",
       headers: {

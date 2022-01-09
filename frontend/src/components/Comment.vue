@@ -79,7 +79,6 @@ export default {
       .then((response) => response.json())
       .then((data) => {
         this.comments = data;
-        console.log(data)
       })
       .catch((error) => console.log(error));
   },
