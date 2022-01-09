@@ -1,15 +1,20 @@
 <template>
   <div>
+    <AddPost/>
     <div v-for="post in posts" :key="post.id" class="feed">
       <div class="feed__content">
         <h4 class="feed__content__title">{{ post.title }}</h4>
         <div class="feed__content__container">
           <p class="feed__content__text">" {{ post.content }} "</p>
-          <img
-            :src="post.imageUrl"
-            alt="Image du post"
-            class="feed__content__img"
-          />
+          <div v-if="post.imageUrl != 'http://localhost:3000/images/undefined'">
+            <img
+              :src="post.imageUrl"
+              alt="Image du post"
+              class="feed__content__img"
+            />
+          </div>
+          <div v-else>
+          </div>
         </div>
       </div>
       <p class="feed_content__postby">
@@ -32,10 +37,13 @@
 
 <script>
 import Comment from "./Comment.vue";
+import AddPost from "./AddPost.vue";
+
 export default {
   name: "FeedPosts",
   components: {
     Comment,
+    AddPost,
   },
   data() {
     return {
