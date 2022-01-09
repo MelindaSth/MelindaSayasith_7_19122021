@@ -1,37 +1,42 @@
 <template>
   <div>
-    <AddPost/>
-    <div v-for="post in posts" :key="post.id" class="feed">
-      <div class="feed__content">
-        <h4 class="feed__content__title">{{ post.title }}</h4>
-        <div class="feed__content__container">
-          <p class="feed__content__text">" {{ post.content }} "</p>
-          <div v-if="post.imageUrl != 'http://localhost:3000/images/undefined'">
-            <img
-              :src="post.imageUrl"
-              alt="Image du post"
-              class="feed__content__img"
-            />
+    <AddPost />
+      <div v-for="post in posts" :key="post.id" class="feed">
+        <div class="feed__content">
+          <h4 class="feed__content__title">{{ post.title }}</h4>
+          <div v-if="edit == false" class="feed__content__container">
+            <p class="feed__content__text">" {{ post.content }} "</p>
+            <div v-if="post.imageUrl != 'http://localhost:3000/images/undefined'">
+              <img
+                :src="post.imageUrl"
+                alt="Image du post"
+                class="feed__content__img"
+              />
+            </div>
           </div>
-          <div v-else>
+          <div v-if="edit">
+            <input type="text" placeholder="Modify ton commentaire">
           </div>
         </div>
-      </div>
-      <p class="feed_content__postby">
-        Posté par {{ post.author.lastname }} {{ post.author.firstname }}
+        <p class="feed_content__postby">
+          Posté par {{ post.author.lastname }} {{ post.author.firstname }}
+        </p>
         <button
           v-if="post.author.id == userId || isAdmin == true"
           type="button"
           @click="deletePost(post.id)"
           class="button"
         >
-          <font-awesome-icon icon="fa-regular fa-trash-alt"/>
+          <font-awesome-icon icon="fa-regular fa-trash-alt" />
         </button>
-      </p>
-      <div class="actions__deletePost">
+                <button
+          v-if="post.author.id == userId || isAdmin == true"
+          type="button"
+          @click="showEdit()"
+          class="button"
+        ></button>
+        <Comment :postId="post.id" :postUserId="post.userId"></Comment>
       </div>
-      <Comment :postId="post.id" :postUserId="post.userId"></Comment>
-    </div>
   </div>
 </template>
 
@@ -51,6 +56,7 @@ export default {
       posts: [],
       userId: localStorage.getItem("userId"),
       isAdmin: false,
+      edit: false,
     };
   },
   mounted() {
@@ -79,6 +85,14 @@ export default {
       .catch((error) => console.log(error));
   },
   methods: {
+    showEdit() {
+      if(this.edit == false) {
+        this.edit = true
+      }
+      else {
+        this.edit = false
+      }
+    },
     // Suppression du Post
     deletePost(postId) {
       let url = `http://localhost:3000/api/posts/${postId}`;
@@ -150,5 +164,4 @@ export default {
   text-align: right;
   font-size: 15px;
 }
-
 </style>

@@ -16,7 +16,7 @@ router.delete('/comment/:id', auth, commentCtrl.deleteComment);
 router.delete('/comment/post/:id', auth, commentCtrl.deleteAllcommentOfPost)
 
 // #4 Modify comment by id
-router.patch('/comment/:id', auth, commentCtrl.modifyComment);
+router.put('/comment/:id', auth, commentCtrl.modifyComment);
 
 module.exports = router;
 

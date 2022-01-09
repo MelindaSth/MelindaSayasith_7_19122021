@@ -20,7 +20,7 @@ router.post('/posts', auth, postCtrl.createPost);
 router.delete('/posts/:id', auth, postCtrl.deletePost);
 
 // #5 Modify post by id
-router.patch('/posts/:id', auth, multer, postCtrl.modifyPost);
+router.put('/posts/:id', auth, multer, postCtrl.modifyPost);
 
 router.post('/images', multer);
 
