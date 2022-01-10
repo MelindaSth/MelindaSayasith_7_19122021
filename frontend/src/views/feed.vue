@@ -14,7 +14,6 @@
       <Posts :title="post.title" :content="post.content"
               :lastname="post.author.lastname"
               :firstname="post.author.firstname"
-              :isAdmin="post.author.isAdmin"
               :postAuthorId="post.author.id"
               :imageUrl="post.imageUrl"
               :postId="post.id"
@@ -48,21 +47,12 @@ export default {
  mounted() {
     this.userId = JSON.parse(localStorage.getItem("userId"));
     let urlPost = "http://localhost:3000/api/posts";
-    let urlUser = `http://localhost:3000/api/users/${localStorage.getItem(
-      "userId"
-    )}`;
     let request = {
       method: "GET",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     };
-    fetch(urlUser, request)
-      .then((response) => response.json())
-      .then((data) => {
-        this.isAdmin = data.isAdmin;
-      })
-      .catch((error) => console.log(error));
     fetch(urlPost, request)
       .then((response) => response.json())
       .then((data) => {

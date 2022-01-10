@@ -10,28 +10,56 @@
       </h2>
       <p>Nom :</p>
       <p class="account__content__list">{{ userAccount.lastname }}</p>
+      <div class="account__content__input">
+        <input v-model="modifyInput.lastname" placeholder="Nouveau nom" />
+        <button
+          class="button"
+          type="button"
+          v-on:click="UpdateUser({ lastname: modifyInput.lastname })"
+        >
+          Modifier
+        </button>
+      </div>
       <p>Prénom :</p>
       <p class="account__content__list">{{ userAccount.firstname }}</p>
+      <div class="account__content__input">
+        <input v-model="modifyInput.firstname" placeholder="Nouveau prénom" />
+        <button
+          class="button"
+          type="button"
+          v-on:click="UpdateUser({ firstname: modifyInput.firstname })"
+        >
+          Modifier
+        </button>
+      </div>
       <p>E-mail :</p>
       <p class="account__content__list">{{ userAccount.email }}</p>
+      <div class="account__content__input">
+        <input v-model="modifyInput.email" placeholder="Nouvel e-mail" />
+        <button
+          class="button"
+          type="button"
+          v-on:click="UpdateUser({ email: modifyInput.email })"
+        >
+          Modifier
+        </button>
+      </div>
       <p>Poste :</p>
       <p class="account__content__list">{{ userAccount.jobtitle }}</p>
-      <h2 class="account__title">Modifier mon compte</h2>
-      <form @submit.prevent="updateUser()" enctype="multipart/form-data">
-        <div>
-          <p>E-mail :</p>
-          <input
-            type="text"
-            name="email"
-            id="email"
-            class="newEmail"
-            placeholder="Nouvel e-mail"
-            v-model="inputAccount.email"
-          /><button v-on:click.prevent="updateUser()" class="button">
-            <font-awesome-icon icon="fa-regular fa-paper-plane" />
-          </button>
-        </div>
-      </form>
+      <div class="account__content__input">
+        <select name="jobtile" id="jobtitle" v-model="modifyInput.jobtitle">
+          <option value="IT">It</option>
+          <option value="Marketing">Marketing</option>
+          <option value="CODIR">CODIR</option>
+        </select>
+        <button
+          class="button"
+          type="button"
+          v-on:click="UpdateUser({ jobtitle: modifyInput.jobtitle })"
+        >
+          Modifier
+        </button>
+      </div>
     </div>
   </section>
 </template>
@@ -53,6 +81,12 @@ export default {
         jobtitle: "",
       },
       inputAccount: {
+        jobtitle: "",
+        email: "",
+      },
+      modifyInput: {
+        lastname: "",
+        firstname: "",
         jobtitle: "",
         email: "",
       },
@@ -98,10 +132,7 @@ export default {
         })
         .catch((error) => console.log(error));
     },
-    updateUser() {
-      const updateUser = {
-        email: `${this.inputAccount.email}`,
-      };
+    UpdateUser(content) {
       let url = `http://localhost:3000/api/users/${this.userAccount.userId}`;
       let request = {
         method: "PUT",
@@ -109,12 +140,15 @@ export default {
           Authorization: "Bearer " + localStorage.getItem("token"),
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(updateUser),
+        body: JSON.stringify(content),
       };
       // console.log(url)
       // console.log(request)
       fetch(url, request)
-        .then((response) => console.log(response.json()))
+        .then((response) => {
+          console.log(response.json());
+          window.location.reload();
+        })
         .catch((error) => console.log(error));
     },
     deleteAccount() {
@@ -158,12 +192,7 @@ export default {
 .account__content__list {
   margin: 20px;
 }
-.newEmail {
-  height: 50px;
-  border-radius: 3px;
-  padding: 0 10px;
-  margin-top: 8px;
-  font-size: 14px;
-  font-weight: 300;
+.account__content__input {
+  border: 2px solid red;
 }
 </style>

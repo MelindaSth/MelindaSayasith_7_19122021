@@ -30,7 +30,7 @@
           <font-awesome-icon icon="fa-regular fa-trash-alt" />
         </button>
         <button
-          v-if="postAuthorId == userId || isAdmin == true"
+          v-if="postAuthorId == userId || this.isAdmin == true"
           type="button"
           @click="showEdit()"
           class="button"
@@ -53,10 +53,10 @@ export default {
       // Data dans sa globalité
       userId: localStorage.getItem("userId"),
       edit: false,
+      isAdmin: false
     };
   },
   props: {
-    isAdmin: Boolean,
     title: String,
     content: String,
     lastname: String,
@@ -66,6 +66,23 @@ export default {
     postId: Number,
     postUserId: Number
     
+  },
+  mounted() {
+    let urlUser = `http://localhost:3000/api/users/${localStorage.getItem(
+      "userId"
+    )}`;
+    let request = {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    };
+    fetch(urlUser, request)
+      .then((response) => response.json())
+      .then((data) => {
+        this.isAdmin = data.isAdmin;
+      })
+      .catch((error) => console.log(error));
   },
   methods: {
     showEdit() {
