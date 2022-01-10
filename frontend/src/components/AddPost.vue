@@ -5,8 +5,12 @@
       <h2 v-if="modify" id="addingPost__title">Modifier votre post</h2>
 
       <form id="addingPost__form" enctype="multipart/form-data">
-        <label v-if="!modify" for="title" class="addingPost__label">Titre du message :</label>
-        <label v-if="modify" for="title" class="addingPost__label">Nouveau titre :</label>
+        <label v-if="!modify" for="title" class="addingPost__label"
+          >Titre du message :</label
+        >
+        <label v-if="modify" for="title" class="addingPost__label"
+          >Nouveau titre :</label
+        >
         <input
           type="text"
           id="title"
@@ -16,8 +20,12 @@
           v-model="inputPost.title"
         />
 
-        <label v-if="!modify" for="content" class="addingPost__label">Contenu :</label>
-        <label v-if="modify" for="content" class="addingPost__label">Nouveau Contenu :</label>
+        <label v-if="!modify" for="content" class="addingPost__label"
+          >Contenu :</label
+        >
+        <label v-if="modify" for="content" class="addingPost__label"
+          >Nouveau Contenu :</label
+        >
         <textarea
           type="text"
           id="content"
@@ -39,8 +47,12 @@
           @change="selectFile"
         />
 
-        <button v-if="!modify" v-on:click.prevent="sendPost()" class="button"><font-awesome-icon icon="fa-regular fa-paper-plane"/></button>
-        <button v-if="modify" v-on:click.prevent="modifyPost()" class="button"><font-awesome-icon icon="fa-regular fa-paper-plane"/></button>
+        <button v-if="!modify" v-on:click.prevent="sendPost()" class="button">
+          <font-awesome-icon icon="fa-regular fa-paper-plane" />
+        </button>
+        <button v-if="modify" v-on:click.prevent="modifyPost()" class="button">
+          <font-awesome-icon icon="fa-regular fa-paper-plane" />
+        </button>
       </form>
     </div>
   </section>
@@ -125,12 +137,12 @@ export default {
       fetch(url, options)
         .then((res) => {
           console.log(res);
-          window.location.reload()
+          window.location.reload();
         })
         .catch((error) => {
           console.log(error);
         });
-    }
+    },
   },
 };
 </script>

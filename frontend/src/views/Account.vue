@@ -9,8 +9,10 @@
         </button>
       </h2>
       <p>Nom :</p>
-      <p class="account__content__list">{{ userAccount.lastname }}</p>
-      <div class="account__content__input">
+      <div v-if="this.show.lastname == false">
+        <p class="account__content__list">{{ userAccount.lastname }}</p>
+      </div>
+      <div v-if="this.show.lastname == true" class="account__content__input">
         <input v-model="modifyInput.lastname" placeholder="Nouveau nom" />
         <button
           class="button"
@@ -20,9 +22,12 @@
           Modifier
         </button>
       </div>
+      <button v-on:click="changeName()">Modifier</button>
       <p>Prénom :</p>
-      <p class="account__content__list">{{ userAccount.firstname }}</p>
-      <div class="account__content__input">
+      <div v-if="this.show.firstname == false" class="account__content__input">
+        <p class="account__content__list">{{ userAccount.firstname }}</p>
+      </div>
+      <div v-if="this.show.firstname == true" class="account__content__input">
         <input v-model="modifyInput.firstname" placeholder="Nouveau prénom" />
         <button
           class="button"
@@ -32,9 +37,12 @@
           Modifier
         </button>
       </div>
+      <button v-on:click="changeFirstname()">Modifier</button>
       <p>E-mail :</p>
-      <p class="account__content__list">{{ userAccount.email }}</p>
-      <div class="account__content__input">
+      <div v-if="this.show.email == false" class="account__content__input">
+        <p class="account__content__list">{{ userAccount.email }}</p>
+      </div>
+      <div v-if="this.show.email == true" class="account__content__input">
         <input v-model="modifyInput.email" placeholder="Nouvel e-mail" />
         <button
           class="button"
@@ -44,13 +52,18 @@
           Modifier
         </button>
       </div>
+      <button v-on:click="changeEmail()">Modifier</button>
       <p>Poste :</p>
-      <p class="account__content__list">{{ userAccount.jobtitle }}</p>
-      <div class="account__content__input">
+      <div v-if="this.show.poste == false" class="account__content__input">
+        <p class="account__content__list">{{ userAccount.jobtitle }}</p>
+      </div>
+      <div v-if="this.show.poste == true" class="account__content__input">
         <select name="jobtile" id="jobtitle" v-model="modifyInput.jobtitle">
-          <option value="IT">It</option>
+          <option value="IT">IT</option>
           <option value="Marketing">Marketing</option>
-          <option value="CODIR">CODIR</option>
+          <option value="Direction">Direction</option>
+          <option value="RH">RH</option>
+          <option value="Finance">Finance</option>
         </select>
         <button
           class="button"
@@ -60,6 +73,7 @@
           Modifier
         </button>
       </div>
+      <button v-on:click="changeJobtitle()">Modifier</button>
     </div>
   </section>
 </template>
@@ -90,19 +104,25 @@ export default {
         jobtitle: "",
         email: "",
       },
+      show: {
+        lastname: false,
+        firstname: false,
+        email: false,
+        poste: false,
+      },
     };
   },
   mounted() {
     let url = `http://localhost:3000/api/users/${localStorage.getItem(
       "userId"
     )}`;
-    let request = {
+    let options = {
       method: "GET",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     };
-    fetch(url, request)
+    fetch(url, options)
       .then((response) => response.json())
       .then((data) => {
         this.userAccount.firstname = data.firstname;
@@ -115,13 +135,13 @@ export default {
   methods: {
     getOneAccount() {
       let url = `http://localhost:3000/api/auth/${this.userAccount.userId}`;
-      let request = {
+      let options = {
         method: "GET",
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
       };
-      fetch(url, request)
+      fetch(url, options)
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
@@ -134,7 +154,7 @@ export default {
     },
     UpdateUser(content) {
       let url = `http://localhost:3000/api/users/${this.userAccount.userId}`;
-      let request = {
+      let options = {
         method: "PUT",
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
@@ -142,9 +162,7 @@ export default {
         },
         body: JSON.stringify(content),
       };
-      // console.log(url)
-      // console.log(request)
-      fetch(url, request)
+      fetch(url, options)
         .then((response) => {
           console.log(response.json());
           window.location.reload();
@@ -153,20 +171,48 @@ export default {
     },
     deleteAccount() {
       let url = `http://localhost:3000/api/users/${this.userAccount.userId}`;
-      let request = {
+      let options = {
         method: "DELETE",
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
       };
-      fetch(url, request)
+      fetch(url, options)
         .then((response) => {
           console.log(response);
           localStorage.clear();
-          alert("Votre compte est maintenant supprimé !");
+          alert("Votre compte est maintenant supprimé, à bientôt !");
         })
         .then(this.$router.push("/signup"))
         .catch((error) => console.log(error));
+    },
+    changeName() {
+      if (this.show.lastname == false) {
+        this.show.lastname = true;
+      } else {
+        this.show.lastname = false;
+      }
+    },
+    changeFirstname() {
+      if (this.show.firstname) {
+        this.show.firstname = false;
+      } else {
+        this.show.firstname = true;
+      }
+    },
+    changeEmail() {
+      if (this.show.email) {
+        this.show.email = false;
+      } else {
+        this.show.email = true;
+      }
+    },
+    changeJobtitle() {
+      if (this.show.poste) {
+        this.show.poste = false;
+      } else {
+        this.show.poste = true;
+      }
     },
   },
 };
@@ -193,6 +239,6 @@ export default {
   margin: 20px;
 }
 .account__content__input {
-  border: 2px solid red;
+  display: flex;
 }
 </style>

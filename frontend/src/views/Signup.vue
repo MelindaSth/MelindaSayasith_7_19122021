@@ -12,7 +12,7 @@
         required
         pattern="^[^&amp;<>@&quot;()'!_$*€£`+=\/;?#]+$"
         v-model="inputSignup.lastname"
-      />
+      /> <!-- Attribut pattern = expression rationelle / RegExp -->
       <label for="firstname" class="signup__label">Prénom :</label>
       <input
         type="text"
@@ -23,7 +23,7 @@
         required
         pattern="^[^&amp;<>@&quot;()'!_$*€£`+=\/;?#]+$"
         v-model="inputSignup.firstname"
-      />
+      /> <!-- Attribut pattern = expression rationelle / RegExp -->
 
       <label for="jobtitle" class="signup__label">Fonction :</label>
       <input
@@ -35,7 +35,7 @@
         required
         pattern="^[^&amp;<>@&quot;()'!_$*€£`+=\/;?#]+$"
         v-model="inputSignup.jobtitle"
-      />
+      /> <!-- Attribut pattern = expression rationelle / RegExp -->
 
       <label for="email" class="signup__label">E-mail :</label>
       <input
@@ -47,7 +47,7 @@
         required
         pattern="[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+.[a-zA-Z.]{2,15}"
         v-model="inputSignup.email"
-      />
+      /> <!-- Attribut pattern = expression rationelle / RegExp -->
 
       <label for="password" class="signup__label">Mot de passe :</label>
       <input
@@ -59,7 +59,7 @@
         required
         pattern="(?=^.{5,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
         v-model="inputSignup.password"
-      />
+      /> <!-- Attribut pattern = expression rationelle / RegExp -->
       <p class="signup__info">
         Minimum 5 caractères dont 1 Majuscule, 1 minuscule et un chiffre
       </p>
@@ -99,7 +99,6 @@ export default {
         email: this.inputSignup.email,
         password: this.inputSignup.password,
       };
-      // console.log(dataToSignup);
       let url = "http://localhost:3000/api/signup";
       let request = {
         method: "POST",
@@ -108,13 +107,12 @@ export default {
           "Content-Type": "application/json",
         },
       };
-      // console.log(request);
       fetch(url, request)
         .then((res) => res.json())
         .then(() => {
           this.$router.push("/");
           alert(
-            " Bienvenue sur Groupomania Connect ! Connectez-vous dès à présent !"
+            " Bienvenue sur Groupomania ! Connectez-vous dès à présent !"
           );
         })
         .catch((error) => console.log(error));

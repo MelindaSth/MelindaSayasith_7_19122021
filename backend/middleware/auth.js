@@ -1,15 +1,11 @@
-const jwt = require('jsonwebtoken'); // On a besoin du package jwt //
+const jwt = require('jsonwebtoken');
 
-
-// work in progress
-
-module.exports = (req, res, next) => { // On exporte un middleware //
+module.exports = (req, res, next) => {
     try {
-        // console.log(req.headers)
-        const token = req.headers.authorization.split(' ')[1]; // Récupération du token dans le header dans un tableau split et on retourne le 2ème élément //
-        const decodedToken = jwt.verify(token, process.env.AUTH_KEY); // On décode le token, la clé doit correspondre à celle de la fontion login //
-        const userId = decodedToken.userId; // On récupére l'userId //
-        if (req.body.userId && req.body.userId !== userId) {
+        const token = req.headers.authorization.split(' ')[1]; // Gestion récuppération token dansle Hearders
+        const decodedToken = jwt.verify(token, process.env.AUTH_KEY); // JWT vérifie le token
+        const userId = decodedToken.userId;
+        if (req.body.userId && req.body.userId !== userId) { // Comparaison de la dmd & de l'id
             throw 'Invalid user ID';
           } else {
             next();

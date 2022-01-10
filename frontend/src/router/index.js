@@ -24,6 +24,7 @@ const routes = [
     path: '/account',
     name: 'Account',
     component: Account,
+    // Avant l'accès au 'path', vérification si 'userId' est dans le localStorage
     beforeEnter: (to, from, next) => {
       if (localStorage.getItem('userId')) {
         next()
@@ -36,6 +37,7 @@ const routes = [
     path: '/feed',
     name: 'Feed',
     component: Feed,
+    // Avant l'accès au 'path', vérification si 'userId' est dans le localStorage
     beforeEnter: (to, from, next) => {
       if (localStorage.getItem('userId')) {
         next()

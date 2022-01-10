@@ -12,10 +12,10 @@ router.post('/comment', auth, commentCtrl.createComment);
 // #3 Delete comment by id
 router.delete('/comment/:id', auth, commentCtrl.deleteComment);
 
-// 
+// #4 Delete all comments 
 router.delete('/comment/post/:id', auth, commentCtrl.deleteAllcommentOfPost)
 
-// #4 Modify comment by id
+// #5 Modify comment by id
 router.put('/comment/:id', auth, commentCtrl.modifyComment);
 
 module.exports = router;

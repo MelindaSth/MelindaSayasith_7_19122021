@@ -59,14 +59,14 @@ export default {
         password: this.inputLogin.password,
       };
       let url = "http://localhost:3000/api/login";
-      let request = {
+      let options = {
         method: "POST",
         body: JSON.stringify(dataToLogin),
         headers: {
           "Content-Type": "application/json",
         },
       };
-      fetch(url, request)
+      fetch(url, options)
         .then((res) => res.json())
         .then((res) => {
           if (res.userId && res.token) {
@@ -75,7 +75,7 @@ export default {
             this.$router.push("feed");
             alert("Vous êtes en ligne !");
           } else {
-            alert("Attention, mot de passe erroné !");
+            alert("Attention, mot de passe faux !");
           }
         })
         .catch((error) => console.log(error));

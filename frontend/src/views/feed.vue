@@ -1,33 +1,45 @@
 <template>
   <section>
     <Navbar></Navbar>
-    <button v-if="showAddPost" type="button" v-on:click="showAddPostButton()" class="button">
+    <button
+      v-if="showAddPost"
+      type="button"
+      v-on:click="showAddPostButton()"
+      class="button"
+    >
       Fermer
     </button>
-    <button v-if="!showAddPost" type="button" v-on:click="showAddPostButton()" class="button">
+    <button
+      v-if="!showAddPost"
+      type="button"
+      v-on:click="showAddPostButton()"
+      class="button"
+    >
       Ajoutez votre Post !
     </button>
     <div v-if="showAddPost">
       <AddPost></AddPost>
     </div>
     <div v-for="post in posts" :key="post.id" class="feed">
-      <Posts :title="post.title" :content="post.content"
-              :lastname="post.author.lastname"
-              :firstname="post.author.firstname"
-              :postAuthorId="post.author.id"
-              :imageUrl="post.imageUrl"
-              :postId="post.id"
-              :postUserId="post.userId"
-        ></Posts>
+      <Posts
+        :title="post.title"
+        :content="post.content"
+        :lastname="post.author.lastname"
+        :firstname="post.author.firstname"
+        :postAuthorId="post.author.id"
+        :imageUrl="post.imageUrl"
+        :postId="post.id"
+        :postUserId="post.userId"
+      ></Posts>
     </div>
   </section>
 </template>
 
 
 <script>
-import Navbar from '../components/Navbar'
-import Posts from '../components/Posts'
-import AddPost from '../components/AddPost.vue'
+import Navbar from "../components/Navbar";
+import Posts from "../components/Posts";
+import AddPost from "../components/AddPost.vue";
 
 export default {
   name: "Feed",
@@ -36,7 +48,7 @@ export default {
     Navbar,
     Posts,
   },
- data() {
+  data() {
     return {
       posts: [],
       userId: localStorage.getItem("userId"),
@@ -44,16 +56,16 @@ export default {
       isAdmin: false,
     };
   },
- mounted() {
+  mounted() {
     this.userId = JSON.parse(localStorage.getItem("userId"));
     let urlPost = "http://localhost:3000/api/posts";
-    let request = {
+    let options = {
       method: "GET",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     };
-    fetch(urlPost, request)
+    fetch(urlPost, options)
       .then((response) => response.json())
       .then((data) => {
         this.posts = data.posts;
@@ -63,11 +75,11 @@ export default {
   methods: {
     showAddPostButton() {
       if (this.showAddPost) {
-        this.showAddPost = false
+        this.showAddPost = false;
       } else {
-        this.showAddPost = true
+        this.showAddPost = true;
       }
-    }
+    },
   },
 };
 </script>
@@ -79,7 +91,7 @@ export default {
   border: 2px solid #333029;
   display: inline-block;
   cursor: pointer;
-  font-family: 'roboto';
+  font-family: "roboto";
   font-size: 14px;
   padding: 12px 16px;
   text-shadow: 0px 1px 0px #ffffff;

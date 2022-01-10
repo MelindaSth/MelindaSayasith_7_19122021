@@ -9,7 +9,7 @@
         <p class="comment__container__title">Réaction :</p>
         <p class="comment__container__content">{{ comment.content }}</p>
         <p class="comment__container_postby">
-          Écrit par {{ comment.author.lastname
+          Commenté par {{ comment.author.lastname
           }}<button
             v-if="comment.author.id == userId || isAdmin == true"
             type="button"
@@ -24,9 +24,7 @@
 
     <div class="addingComment" v-if="addComment">
       <form>
-        <label for="content" class="addingComment__label"
-          ></label
-        >
+        <label for="content" class="addingComment__label"></label>
         <div class="addingComment__container">
           <textarea
             type="text"
@@ -47,10 +45,9 @@
     <button v-if="addComment" v-on:click="showAddComment()" class="button">
       Fermer
     </button>
-        <button v-if="!addComment" v-on:click="showAddComment()" class="button">
+    <button v-if="!addComment" v-on:click="showAddComment()" class="button">
       Commentez !
     </button>
-
   </div>
 </template>
 
@@ -64,16 +61,16 @@ export default {
       content: "",
       userId: localStorage.getItem("userId"),
       isAdmin: false,
-      addComment: false
+      addComment: false,
     };
   },
-  // Passer des données aux composants enfants avec les props
+  // Passage des données aux composants enfants avec les props
   props: {
     postId: Number,
     postUserId: Number,
   },
   mounted() {
-    // Get comment pour un post
+    // Réccupération d'un seul commentaire pour un seul post
     let url = `http://localhost:3000/api/comment/${this.postId}`;
     let urlUser = `http://localhost:3000/api/users/${localStorage.getItem(
       "userId"
@@ -104,7 +101,7 @@ export default {
         this.addComment = true;
       }
     },
-    // Post a comment - créer un comment
+    // Créer un commentaire
     createComment() {
       let inputContent = {
         content: this.content,
@@ -126,7 +123,7 @@ export default {
           if (res.ok) {
             this.content = {};
           } else {
-            alert("Commentaire envoyé");
+            alert("Votre commentaire est envoyé");
           }
         })
         .then(window.location.reload())
@@ -182,8 +179,8 @@ export default {
   display: flex;
 }
 .comment__container_postby {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
 </style>

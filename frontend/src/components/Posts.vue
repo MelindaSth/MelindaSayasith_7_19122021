@@ -1,41 +1,36 @@
 <template>
   <div>
-        <div class="feed__content">
-          <h4 class="feed__content__title">{{ title }}</h4>
-          <div v-if="edit == false" class="feed__content__container">
-            <p class="feed__content__text">" {{ content }} "</p>
-              <div v-if="imageUrl!= 'http://localhost:3000/images/undefined'">
-                <img
-                  :src="imageUrl"
-                  alt="Image du post"
-                  class="
-                  feed__content__img"
-                />
-              </div>
-          </div>
-          <div v-if="edit">
-            <AddPost :modify="true" :postId="postId"></AddPost>
-          </div>
-          <Comment :postId="postId" :postUserId="postUserId"></Comment>
+    <div class="feed__content">
+      <h4 class="feed__content__title">{{ title }}</h4>
+      <div v-if="edit == false" class="feed__content__container">
+        <p class="feed__content__text">" {{ content }} "</p>
+        <div v-if="imageUrl != 'http://localhost:3000/images/undefined'">
+          <img :src="imageUrl" alt="Image du post" class="feed__content__img" />
         </div>
-        <p class="feed_content__postby">
-          Posté par {{ lastname }} {{ firstname }}
-        </p>
-        <button
-          v-if="postAuthorId == userId || this.isAdmin == true"
-          type="button"
-          @click="deletePost(postId)"
-          class="button"
-        >
-          <font-awesome-icon icon="fa-regular fa-trash-alt" />
-        </button>
-        <button
-          v-if="postAuthorId == userId || this.isAdmin == true"
-          type="button"
-          @click="showEdit()"
-          class="button"
-        >Modifier Post</button>
       </div>
+      <div v-if="edit">
+        <AddPost :modify="true" :postId="postId"></AddPost>
+      </div>
+      <Comment :postId="postId" :postUserId="postUserId"></Comment>
+    </div>
+    <p class="feed_content__postby">Posté par {{ lastname }} {{ firstname }}</p>
+    <button
+      v-if="postAuthorId == userId || this.isAdmin == true"
+      type="button"
+      @click="deletePost(postId)"
+      class="button"
+    >
+      <font-awesome-icon icon="fa-regular fa-trash-alt" />
+    </button>
+    <button
+      v-if="postAuthorId == userId || this.isAdmin == true"
+      type="button"
+      @click="showEdit()"
+      class="button"
+    >
+      Modifier Post
+    </button>
+  </div>
 </template>
 
 <script>
@@ -46,16 +41,17 @@ export default {
   name: "Posts",
   components: {
     Comment,
-    AddPost
+    AddPost,
   },
   data() {
     return {
-      // Data dans sa globalité
+      // Data en globalité
       userId: localStorage.getItem("userId"),
       edit: false,
-      isAdmin: false
+      isAdmin: false,
     };
   },
+  // Passage des données aux composants enfants avec les props
   props: {
     title: String,
     content: String,
@@ -64,20 +60,19 @@ export default {
     imageUrl: String,
     postAuthorId: Number,
     postId: Number,
-    postUserId: Number
-    
+    postUserId: Number,
   },
   mounted() {
     let urlUser = `http://localhost:3000/api/users/${localStorage.getItem(
       "userId"
     )}`;
-    let request = {
+    let options = {
       method: "GET",
       headers: {
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     };
-    fetch(urlUser, request)
+    fetch(urlUser, options)
       .then((response) => response.json())
       .then((data) => {
         this.isAdmin = data.isAdmin;
@@ -86,32 +81,31 @@ export default {
   },
   methods: {
     showEdit() {
-      if(this.edit == false) {
-        this.edit = true
-      }
-      else {
-        this.edit = false
+      if (this.edit == false) {
+        this.edit = true;
+      } else {
+        this.edit = false;
       }
     },
     // Suppression du Post
     deletePost(postId) {
       let url = `http://localhost:3000/api/posts/${postId}`;
-      let request = {
+      let options = {
         method: "DELETE",
         headers: {
           Authorization: "Bearer " + localStorage.getItem("token"),
         },
       };
       let urlComment = `http://localhost:3000/api/comment/post/${postId}`;
-      fetch(urlComment, request)
+      fetch(urlComment, options)
         .then((response) => {
           console.log(response);
         })
         .catch((error) => console.log(error));
-      fetch(url, request)
+      fetch(url, options)
         .then((response) => {
           console.log(response);
-          alert("Suppression du message confirmé ! 😢");
+          alert("Suppression du message confirmé !");
           window.location.reload();
         })
         .catch((error) => console.log(error));

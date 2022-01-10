@@ -20,8 +20,9 @@ router.post('/posts', auth, postCtrl.createPost);
 router.delete('/posts/:id', auth, postCtrl.deletePost);
 
 // #5 Modify post by id
-router.put('/posts/:id', auth, multer, postCtrl.modifyPost);
+router.put('/posts/:id', auth, postCtrl.modifyPost);
 
+// #6 Traitement images
 router.post('/images', multer);
 
 module.exports = router;

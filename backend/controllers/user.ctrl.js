@@ -2,6 +2,7 @@ const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 
 require('dotenv').config();
+
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
@@ -18,6 +19,8 @@ exports.getAllUsers = async (req, res, next) => {
     }
 }
 
+// #2 Get one user by id
+
 exports.getOneUser = async (req, res, next) => {
     try {
         const { id } = req.params;
@@ -33,11 +36,11 @@ exports.getOneUser = async (req, res, next) => {
     }
 }
 
-// #2 Post newUser
+// #3 Signup
 
 exports.signup = async (req, res, next) => {
     try {
-        bcrypt.hash(req.body.password, 10)
+        bcrypt.hash(req.body.password, 10) // 'Hashage' de mot de passe
             .then(async hash => {
                 const newUser = await prisma.user.create({
                     data: {
@@ -56,23 +59,21 @@ exports.signup = async (req, res, next) => {
     }
 }
 
-// #3 Post to login
+// #4 Login
 
 exports.login = async (req, res, next) => {
     const email = req.body.email
     const password = req.body.password
-    console.log(password)
     try {
         const user = await prisma.user.findUnique({
             where: {
                 email: email
             }
         });
-        console.log(user)
         if (!user) {
             return res.status(401).json({ error: "Utilisateur inconnu" })
         } else
-            bcrypt.compare(password, user.password)
+            bcrypt.compare(password, user.password) // Comparaison
                 .then(valid => {
                     if (!valid) {
                         return res.status(401).json({ error: 'Mot de passe faux' });
@@ -88,14 +89,13 @@ exports.login = async (req, res, next) => {
                     });
                 })
                 .catch(error => res.status(500).json(error));
-        // .catch((error) => console.error(error))
     } catch (error) {
         console.log(error)
         next(error)
     }
 }
 
-// #4 Delete post by id
+// #5 Delete user by id
 
 exports.deleteUser = async (req, res, next) => {
     try {
@@ -111,7 +111,7 @@ exports.deleteUser = async (req, res, next) => {
     }
 }
 
-// #5 Modify user by id 
+// #6 Modify user by id 
 
 exports.modifyUser = async (req, res, next) => {
     try {

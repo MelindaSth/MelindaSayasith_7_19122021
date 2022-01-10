@@ -12,8 +12,8 @@ export default {
   name: "Navbar",
   methods: {
     deconnect() {
-      localStorage.clear();
-      this.$router.push("/");
+      localStorage.clear(); // Nettoyage du localStorage
+      this.$router.push("/"); // Changement de route vers "/"
     },
   },
 };
@@ -21,7 +21,7 @@ export default {
 
 <style lang="css">
 #logo {
-  width: 250px;
+  width: 200px;
 }
 #nav {
   font-family: 'roboto';

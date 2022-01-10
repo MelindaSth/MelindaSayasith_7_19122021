@@ -1,7 +1,7 @@
 const { PrismaClient } = require('@prisma/client')
 const prisma = new PrismaClient()
 
-// #4 Get allCommentOfPost
+// #1 Get allCommentOfPost
 
 exports.getAllCommentOfPost = async (req, res, next) => {
   try {
@@ -18,8 +18,7 @@ exports.getAllCommentOfPost = async (req, res, next) => {
   }
 };
 
-
-// #1 Post 'comment'
+// #2 Post 'comment'
 
 exports.createComment = async (req, res, next) => {
   try {
@@ -32,7 +31,7 @@ exports.createComment = async (req, res, next) => {
   }
 };
 
-// #2 Delete comment by id
+// #3 Delete comment by id
 
 exports.deleteComment = async (req, res, next) => {
   try {
@@ -48,6 +47,8 @@ exports.deleteComment = async (req, res, next) => {
   }
 }
 
+// #4 Delete all comments
+
 exports.deleteAllcommentOfPost = async (req, res, next) => {
   try {
     const deletedComments = await prisma.comment.deleteMany({
@@ -62,7 +63,7 @@ exports.deleteAllcommentOfPost = async (req, res, next) => {
   }
 }
 
-// #3 Modify comment by id 
+// #5 Modify comment by id 
 
 exports.modifyComment = async (req, res, next) => {
   try {
