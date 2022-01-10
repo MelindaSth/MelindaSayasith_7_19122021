@@ -6,19 +6,21 @@
         :key="comment.id"
         class="comment__container"
       >
-        <p class="comment__container__title">Réaction :</p>
+        <p class="comment__container__title">Réaction de {{ comment.author.firstname }} :</p>
         <p class="comment__container__content">{{ comment.content }}</p>
-        <p class="comment__container_postby">
-          Commenté par {{ comment.author.lastname
-          }}<button
+        <div  class="comment__container_postby">
+          <p class="comment__postby__text">
+            Commenté par {{ comment.author.firstname }}
+          </p>
+          <button
             v-if="comment.author.id == userId || isAdmin == true"
             type="button"
             @click="deleteComment(comment.id)"
-            class="button"
+            class="button__toDeleteComment"
           >
             <font-awesome-icon icon="fa-regular fa-trash-alt" />
           </button>
-        </p>
+        </div>
       </div>
     </div>
 
@@ -151,7 +153,7 @@ export default {
 .comment__container {
   border-radius: 10px;
   box-shadow: 0 0 5px rgb(8 7 16 / 50%);
-  padding: 25px;
+  padding: 10px;
   margin-bottom: 10px;
   background-color: #b5b2ae;
 }
@@ -182,5 +184,25 @@ export default {
   display: flex;
   align-items: center;
   justify-content: flex-end;
+}
+.comment__postby__text {
+  margin-right: 10px;
+}
+.button, .button__toDeleteComment {
+  background-color: white;
+  border-radius: 15px;
+  border: 2px solid #333029;
+  cursor: pointer;
+  font-family: "roboto";
+  font-size: 14px;
+  padding: 12px 16px;
+}
+.button, .button__toDeleteComment:hover {
+  background-color: #8b5258;
+  color: white;
+}
+.button, .button__toDeleteComment:active {
+  position: relative;
+  top: 1px;
 }
 </style>

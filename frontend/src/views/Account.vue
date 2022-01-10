@@ -22,7 +22,7 @@
           Modifier
         </button>
       </div>
-      <button v-on:click="changeName()">Modifier</button>
+      <button v-on:click="changeName()" class="button">Modifier</button>
       <p>Prénom :</p>
       <div v-if="this.show.firstname == false" class="account__content__input">
         <p class="account__content__list">{{ userAccount.firstname }}</p>
@@ -37,7 +37,7 @@
           Modifier
         </button>
       </div>
-      <button v-on:click="changeFirstname()">Modifier</button>
+      <button v-on:click="changeFirstname()" class="button">Modifier</button>
       <p>E-mail :</p>
       <div v-if="this.show.email == false" class="account__content__input">
         <p class="account__content__list">{{ userAccount.email }}</p>
@@ -52,7 +52,7 @@
           Modifier
         </button>
       </div>
-      <button v-on:click="changeEmail()">Modifier</button>
+      <button v-on:click="changeEmail()" class="button">Modifier</button>
       <p>Poste :</p>
       <div v-if="this.show.poste == false" class="account__content__input">
         <p class="account__content__list">{{ userAccount.jobtitle }}</p>
@@ -73,7 +73,7 @@
           Modifier
         </button>
       </div>
-      <button v-on:click="changeJobtitle()">Modifier</button>
+      <button v-on:click="changeJobtitle()" class="button">Modifier</button>
     </div>
   </section>
 </template>
@@ -226,7 +226,8 @@ export default {
   flex-direction: column;
   justify-content: space-evenly;
   margin: 20px;
-  background-color: #eae0c2;
+  padding: 15px;
+  background-color: #b5b2ae;
 }
 .account__title {
   margin-bottom: 20px;
@@ -240,5 +241,23 @@ export default {
 }
 .account__content__input {
   display: flex;
+  margin-bottom: 10px;
+}
+.button {
+  background-color: white;
+  border-radius: 15px;
+  border: 2px solid #333029;
+  cursor: pointer;
+  font-family: "roboto";
+  font-size: 14px;
+  padding: 12px 16px;
+}
+.button:hover {
+  background-color: #8b5258;
+  color: white;
+}
+.button:active {
+  position: relative;
+  top: 1px;
 }
 </style>

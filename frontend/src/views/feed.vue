@@ -9,14 +9,16 @@
     >
       Fermer
     </button>
-    <button
-      v-if="!showAddPost"
-      type="button"
-      v-on:click="showAddPostButton()"
-      class="button"
-    >
-      Ajoutez votre Post !
-    </button>
+    <div class="button__toAddPost">
+      <button
+        v-if="!showAddPost"
+        type="button"
+        v-on:click="showAddPostButton()"
+        class="button__addPost"
+      >
+        Ajoutez votre Post !
+      </button>
+    </div>
     <div v-if="showAddPost">
       <AddPost></AddPost>
     </div>
@@ -85,22 +87,25 @@ export default {
 </script>
 
 <style lang="css">
-.button {
+.button__addPost {
   background-color: white;
   border-radius: 15px;
   border: 2px solid #333029;
-  display: inline-block;
   cursor: pointer;
   font-family: "roboto";
   font-size: 14px;
   padding: 12px 16px;
-  text-shadow: 0px 1px 0px #ffffff;
 }
-.button:hover {
+.button__addPost:hover {
   background-color: #8b5258;
+  color: white;
 }
-.button:active {
+.button__addPost:active {
   position: relative;
   top: 1px;
+}
+.button__toAddPost {
+  display: flex;
+  justify-content: center;
 }
 </style>

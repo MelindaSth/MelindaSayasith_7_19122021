@@ -13,23 +13,25 @@
       </div>
       <Comment :postId="postId" :postUserId="postUserId"></Comment>
     </div>
-    <p class="feed_content__postby">Posté par {{ lastname }} {{ firstname }}</p>
-    <button
-      v-if="postAuthorId == userId || this.isAdmin == true"
-      type="button"
-      @click="deletePost(postId)"
-      class="button"
-    >
-      <font-awesome-icon icon="fa-regular fa-trash-alt" />
-    </button>
-    <button
-      v-if="postAuthorId == userId || this.isAdmin == true"
-      type="button"
-      @click="showEdit()"
-      class="button"
-    >
-      Modifier Post
-    </button>
+    <p class="feed_content__postby">Posté par {{ firstname }}</p>
+    <div class="feed__button__container">
+      <button
+        v-if="postAuthorId == userId || this.isAdmin == true"
+        type="button"
+        @click="deletePost(postId)"
+        class="button"
+      >
+        <font-awesome-icon icon="fa-regular fa-trash-alt" />
+      </button>
+      <button
+        v-if="postAuthorId == userId || this.isAdmin == true"
+        type="button"
+        @click="showEdit()"
+        class="button"
+      >
+        Modifier Post
+      </button>
+    </div>
   </div>
 </template>
 
@@ -141,7 +143,8 @@ export default {
   align-items: center;
   border-radius: 10px;
   box-shadow: 0 0 5px rgb(8 7 16 / 50%);
-  padding: 25px;
+  padding: 10px;
+  margin-bottom: 10px;
   background-color: white;
 }
 .feed__content__text {
@@ -158,7 +161,10 @@ export default {
   text-align: right;
   font-size: 15px;
 }
-
+.feed__button__container {
+    display: flex;
+    justify-content: flex-end;
+}
 .editMessage {
   width: 80%;
   height: 150px;
