@@ -22,10 +22,10 @@
       </div>
     </div>
 
-    <div class="addingComment">
+    <div class="addingComment" v-if="addComment">
       <form>
         <label for="content" class="addingComment__label"
-          >Votre commentaire</label
+          ></label
         >
         <div class="addingComment__container">
           <textarea
@@ -43,6 +43,14 @@
         </div>
       </form>
     </div>
+
+    <button v-if="addComment" v-on:click="showAddComment()" class="button">
+      Fermer
+    </button>
+        <button v-if="!addComment" v-on:click="showAddComment()" class="button">
+      Commentez !
+    </button>
+
   </div>
 </template>
 
@@ -55,7 +63,8 @@ export default {
       comments: [],
       content: "",
       userId: localStorage.getItem("userId"),
-      isAdmin: "false",
+      isAdmin: false,
+      addComment: false
     };
   },
   // Passer des données aux composants enfants avec les props
@@ -88,6 +97,13 @@ export default {
       .catch((error) => console.log(error));
   },
   methods: {
+    showAddComment() {
+      if (this.addComment) {
+        this.addComment = false;
+      } else {
+        this.addComment = true;
+      }
+    },
     // Post a comment - créer un comment
     createComment() {
       let inputContent = {

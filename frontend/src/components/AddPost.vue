@@ -1,10 +1,12 @@
 <template>
   <section>
     <div class="addingPost">
-      <h2 id="addingPost__title">Partagez votre humeur...</h2>
+      <h2 v-if="!modify" id="addingPost__title">Partagez votre humeur...</h2>
+      <h2 v-if="modify" id="addingPost__title">Modifier votre post</h2>
 
       <form id="addingPost__form" enctype="multipart/form-data">
-        <label for="title" class="addingPost__label">Titre du message :</label>
+        <label v-if="!modify" for="title" class="addingPost__label">Titre du message :</label>
+        <label v-if="modify" for="title" class="addingPost__label">Nouveau titre :</label>
         <input
           type="text"
           id="title"
@@ -14,7 +16,8 @@
           v-model="inputPost.title"
         />
 
-        <label for="content" class="addingPost__label">Contenu :</label>
+        <label v-if="!modify" for="content" class="addingPost__label">Contenu :</label>
+        <label v-if="modify" for="content" class="addingPost__label">Nouveau Contenu :</label>
         <textarea
           type="text"
           id="content"
@@ -25,8 +28,9 @@
           v-model="inputPost.content"
         ></textarea>
 
-        <label for="file"></label>
+        <label v-if="!modify" for="file"></label>
         <input
+          v-if="!modify"
           type="file"
           class="file-upload-button"
           name="file"
@@ -35,7 +39,8 @@
           @change="selectFile"
         />
 
-        <button v-on:click.prevent="sendPost()" class="button"><font-awesome-icon icon="fa-regular fa-paper-plane"/></button>
+        <button v-if="!modify" v-on:click.prevent="sendPost()" class="button"><font-awesome-icon icon="fa-regular fa-paper-plane"/></button>
+        <button v-if="modify" v-on:click.prevent="modifyPost()" class="button"><font-awesome-icon icon="fa-regular fa-paper-plane"/></button>
       </form>
     </div>
   </section>
@@ -44,7 +49,10 @@
 <script>
 export default {
   name: "Post",
-  components: {},
+  props: {
+    modify: Boolean,
+    postId: Number,
+  },
   data() {
     return {
       inputPost: {
@@ -66,7 +74,7 @@ export default {
         title: this.inputPost.title,
         content: this.inputPost.content,
         userId: Math.abs(localStorage.getItem("userId")),
-        imageUrl: `http://localhost:3000/images/${this.inputPost.file.name}`,
+        imageUrl: this.inputPost.file.name,
       };
       console.log(data);
       let options = {
@@ -99,6 +107,30 @@ export default {
         window.location.reload();
       });
     },
+    modifyPost() {
+      let url = `http://localhost:3000/api/posts/${this.postId}`;
+      const data = {
+        title: this.inputPost.title,
+        content: this.inputPost.content,
+      };
+      console.log(data);
+      let options = {
+        method: "PUT",
+        body: JSON.stringify(data),
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("token"),
+          "Content-Type": "application/json",
+        },
+      };
+      fetch(url, options)
+        .then((res) => {
+          console.log(res);
+          window.location.reload()
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   },
 };
 </script>

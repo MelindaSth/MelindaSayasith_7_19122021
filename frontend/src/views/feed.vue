@@ -1,20 +1,83 @@
 <template>
   <section>
     <Navbar></Navbar>
-    <FeedPosts></FeedPosts>
+    <button v-if="showAddPost" type="button" v-on:click="showAddPostButton()" class="button">
+      Fermer
+    </button>
+    <button v-if="!showAddPost" type="button" v-on:click="showAddPostButton()" class="button">
+      Ajoutez votre Post !
+    </button>
+    <div v-if="showAddPost">
+      <AddPost></AddPost>
+    </div>
+    <div v-for="post in posts" :key="post.id" class="feed">
+      <Posts :title="post.title" :content="post.content"
+              :lastname="post.author.lastname"
+              :firstname="post.author.firstname"
+              :isAdmin="post.author.isAdmin"
+              :postAuthorId="post.author.id"
+              :imageUrl="post.imageUrl"
+              :postId="post.id"
+              :postUserId="post.userId"
+        ></Posts>
+    </div>
   </section>
 </template>
 
 
 <script>
 import Navbar from '../components/Navbar'
-import FeedPosts from '../components/FeedPosts'
+import Posts from '../components/Posts'
+import AddPost from '../components/AddPost.vue'
 
 export default {
   name: "Feed",
   components: {
+    AddPost,
     Navbar,
-    FeedPosts,
+    Posts,
+  },
+ data() {
+    return {
+      posts: [],
+      userId: localStorage.getItem("userId"),
+      showAddPost: false,
+      isAdmin: false,
+    };
+  },
+ mounted() {
+    this.userId = JSON.parse(localStorage.getItem("userId"));
+    let urlPost = "http://localhost:3000/api/posts";
+    let urlUser = `http://localhost:3000/api/users/${localStorage.getItem(
+      "userId"
+    )}`;
+    let request = {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    };
+    fetch(urlUser, request)
+      .then((response) => response.json())
+      .then((data) => {
+        this.isAdmin = data.isAdmin;
+      })
+      .catch((error) => console.log(error));
+    fetch(urlPost, request)
+      .then((response) => response.json())
+      .then((data) => {
+        this.posts = data.posts;
+      })
+      .catch((error) => console.log(error));
+  },
+  methods: {
+    showAddPostButton() {
+      if (this.showAddPost) {
+        this.showAddPost = false
+      } else {
+        this.showAddPost = true
+      }
+    }
   },
 };
 </script>

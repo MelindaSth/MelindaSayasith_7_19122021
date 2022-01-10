@@ -1,43 +1,41 @@
 <template>
   <div>
-    <AddPost />
-      <div v-for="post in posts" :key="post.id" class="feed">
         <div class="feed__content">
-          <h4 class="feed__content__title">{{ post.title }}</h4>
+          <h4 class="feed__content__title">{{ title }}</h4>
           <div v-if="edit == false" class="feed__content__container">
-            <p class="feed__content__text">" {{ post.content }} "</p>
-            <div v-if="post.imageUrl != 'http://localhost:3000/images/undefined'">
-              <img
-                :src="post.imageUrl"
-                alt="Image du post"
-                class="feed__content__img"
-              />
-            </div>
+            <p class="feed__content__text">" {{ content }} "</p>
+              <div v-if="imageUrl!= 'http://localhost:3000/images/undefined'">
+                <img
+                  :src="imageUrl"
+                  alt="Image du post"
+                  class="
+                  feed__content__img"
+                />
+              </div>
           </div>
           <div v-if="edit">
-            <input type="text" placeholder="Modify ton commentaire">
+            <AddPost :modify="true" :postId="postId"></AddPost>
           </div>
+          <Comment :postId="postId" :postUserId="postUserId"></Comment>
         </div>
         <p class="feed_content__postby">
-          Posté par {{ post.author.lastname }} {{ post.author.firstname }}
+          Posté par {{ lastname }} {{ firstname }}
         </p>
         <button
-          v-if="post.author.id == userId || isAdmin == true"
+          v-if="postAuthorId == userId || this.isAdmin == true"
           type="button"
-          @click="deletePost(post.id)"
+          @click="deletePost(postId)"
           class="button"
         >
           <font-awesome-icon icon="fa-regular fa-trash-alt" />
         </button>
-                <button
-          v-if="post.author.id == userId || isAdmin == true"
+        <button
+          v-if="postAuthorId == userId || isAdmin == true"
           type="button"
           @click="showEdit()"
           class="button"
-        ></button>
-        <Comment :postId="post.id" :postUserId="post.userId"></Comment>
+        >Modifier Post</button>
       </div>
-  </div>
 </template>
 
 <script>
@@ -45,44 +43,29 @@ import Comment from "./Comment.vue";
 import AddPost from "./AddPost.vue";
 
 export default {
-  name: "FeedPosts",
+  name: "Posts",
   components: {
     Comment,
-    AddPost,
+    AddPost
   },
   data() {
     return {
       // Data dans sa globalité
-      posts: [],
       userId: localStorage.getItem("userId"),
-      isAdmin: false,
       edit: false,
     };
   },
-  mounted() {
-    this.userId = JSON.parse(localStorage.getItem("userId"));
-    let urlPost = "http://localhost:3000/api/posts";
-    let urlUser = `http://localhost:3000/api/users/${localStorage.getItem(
-      "userId"
-    )}`;
-    let request = {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("token"),
-      },
-    };
-    fetch(urlUser, request)
-      .then((response) => response.json())
-      .then((data) => {
-        this.isAdmin = data.isAdmin;
-      })
-      .catch((error) => console.log(error));
-    fetch(urlPost, request)
-      .then((response) => response.json())
-      .then((data) => {
-        this.posts = data.posts;
-      })
-      .catch((error) => console.log(error));
+  props: {
+    isAdmin: Boolean,
+    title: String,
+    content: String,
+    lastname: String,
+    firstname: String,
+    imageUrl: String,
+    postAuthorId: Number,
+    postId: Number,
+    postUserId: Number
+    
   },
   methods: {
     showEdit() {
@@ -163,5 +146,10 @@ export default {
   margin: 10px;
   text-align: right;
   font-size: 15px;
+}
+
+.editMessage {
+  width: 80%;
+  height: 150px;
 }
 </style>

@@ -19,7 +19,7 @@ app.use(morgan('dev'));
 
 app.use(cors());
 
-// app.use(helmet.frameguard({ action: "sameorigin" }));
+app.use(helmet.frameguard({ action: "sameorigin" }));
 app.use('/images/', express.static(path.join(__dirname, 'images'))); // Pour toute requête envoyée à /images/, on sert ce dossier statique image //
 
 app.use('/api', postRoutes);
