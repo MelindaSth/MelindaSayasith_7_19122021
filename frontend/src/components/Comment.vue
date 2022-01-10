@@ -6,12 +6,11 @@
         :key="comment.id"
         class="comment__container"
       >
-        <p class="comment__container__title">Réaction de {{ comment.author.firstname }} :</p>
+        <p class="comment__container__title">
+          Réaction de {{ comment.author.firstname }} :
+        </p>
         <p class="comment__container__content">{{ comment.content }}</p>
-        <div  class="comment__container_postby">
-          <p class="comment__postby__text">
-            Commenté par {{ comment.author.firstname }}
-          </p>
+        <div class="comment__container_postby">
           <button
             v-if="comment.author.id == userId || isAdmin == true"
             type="button"
@@ -43,13 +42,22 @@
         </div>
       </form>
     </div>
-
-    <button v-if="addComment" v-on:click="showAddComment()" class="button">
-      Fermer
-    </button>
-    <button v-if="!addComment" v-on:click="showAddComment()" class="button">
-      Commentez !
-    </button>
+    <div class="showComment">
+      <button
+        v-if="addComment"
+        v-on:click="showAddComment()"
+        class="button"
+      >
+        Fermer
+      </button>
+      <button
+        v-if="!addComment"
+        v-on:click="showAddComment()"
+        class="button"
+      >
+        Commentez !
+      </button>
+    </div>
   </div>
 </template>
 
@@ -142,6 +150,7 @@ export default {
       fetch(urlComment, options)
         .then((response) => {
           console.log(response);
+          window.location.reload();
         })
         .catch((error) => console.log(error));
     },
@@ -170,6 +179,18 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
+}
+
+.addingComment .button {
+  margin: 0 15px;
+}
+
+.addingComment form {
+  width: 500px;
+}
+.addingComment form textarea {
+  width: 80%;
 }
 .addingComment__label {
   display: flex;
@@ -179,6 +200,8 @@ export default {
 }
 .addingComment__container {
   display: flex;
+  width: 100%;
+  justify-content: center ;
 }
 .comment__container_postby {
   display: flex;
@@ -188,7 +211,8 @@ export default {
 .comment__postby__text {
   margin-right: 10px;
 }
-.button, .button__toDeleteComment {
+.button,
+.button__toDeleteComment {
   background-color: white;
   border-radius: 15px;
   border: 2px solid #333029;
@@ -197,12 +221,21 @@ export default {
   font-size: 14px;
   padding: 12px 16px;
 }
-.button, .button__toDeleteComment:hover {
+.button,
+.button__toDeleteComment:hover {
   background-color: #8b5258;
   color: white;
 }
-.button, .button__toDeleteComment:active {
+.button,
+.button__toDeleteComment:active {
   position: relative;
   top: 1px;
+}
+
+.showComment {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 15px;
 }
 </style>

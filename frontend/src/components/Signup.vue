@@ -65,13 +65,6 @@
       </p>
       <button class="signup__button">Inscription</button>
     </form>
-
-    <nav class="login__invitation">
-      <p>
-        Vous avez déjà un compte ?
-        <router-link to="/">Connectez-vous</router-link>
-      </p>
-    </nav>
   </div>
 </template>
 
@@ -110,7 +103,7 @@ export default {
       fetch(url, request)
         .then((res) => res.json())
         .then(() => {
-          this.$router.push("/");
+          window.location.reload()
           alert(
             " Bienvenue sur Groupomania ! Connectez-vous dès à présent !"
           );
@@ -161,7 +154,7 @@ export default {
   font-weight: 300;
 }
 .signup__button {
-  margin-top: 50px;
+  margin-top: 20px;
   width: 100%;
   padding: 15px 0;
   font-size: 18px;

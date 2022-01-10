@@ -1,14 +1,6 @@
 <template>
-  <section>
+  <section id="Feed">
     <Navbar></Navbar>
-    <button
-      v-if="showAddPost"
-      type="button"
-      v-on:click="showAddPostButton()"
-      class="button"
-    >
-      Fermer
-    </button>
     <div class="button__toAddPost">
       <button
         v-if="!showAddPost"
@@ -18,6 +10,14 @@
       >
         Ajoutez votre Post !
       </button>
+          <button
+      v-if="showAddPost"
+      type="button"
+      v-on:click="showAddPostButton()"
+      class="button__addPost"
+    >
+      Fermer
+    </button>
     </div>
     <div v-if="showAddPost">
       <AddPost></AddPost>
@@ -87,6 +87,9 @@ export default {
 </script>
 
 <style lang="css">
+#Feed {
+  margin: 0!important;
+}
 .button__addPost {
   background-color: white;
   border-radius: 15px;

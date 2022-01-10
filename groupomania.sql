@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS `groupomania`.`user` (
   PRIMARY KEY (`id`),
   UNIQUE INDEX `User_email_key` (`email` ASC) VISIBLE)
 ENGINE = InnoDB
-AUTO_INCREMENT = 5
+AUTO_INCREMENT = 3
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_unicode_ci;
 
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `groupomania`.`post` (
   `updatedAt` DATETIME(3) NOT NULL,
   `title` VARCHAR(191) NOT NULL,
   `content` VARCHAR(191) NOT NULL,
-  `imageUrl` TEXT NULL DEFAULT NULL,
+  `imageUrl` VARCHAR(191) NULL DEFAULT NULL,
   `viewCount` INT NOT NULL DEFAULT '0',
   `userId` INT NOT NULL,
   PRIMARY KEY (`id`),
@@ -71,10 +71,10 @@ CREATE TABLE IF NOT EXISTS `groupomania`.`post` (
   CONSTRAINT `Post_userId_fkey`
     FOREIGN KEY (`userId`)
     REFERENCES `groupomania`.`user` (`id`)
-    ON DELETE RESTRICT
+    ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
-AUTO_INCREMENT = 91
+AUTO_INCREMENT = 4
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_unicode_ci;
 
@@ -95,15 +95,15 @@ CREATE TABLE IF NOT EXISTS `groupomania`.`comment` (
   CONSTRAINT `Comment_postId_fkey`
     FOREIGN KEY (`postId`)
     REFERENCES `groupomania`.`post` (`id`)
-    ON DELETE RESTRICT
+    ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `Comment_userId_fkey`
     FOREIGN KEY (`userId`)
     REFERENCES `groupomania`.`user` (`id`)
-    ON DELETE RESTRICT
+    ON DELETE CASCADE
     ON UPDATE CASCADE)
 ENGINE = InnoDB
-AUTO_INCREMENT = 12
+AUTO_INCREMENT = 3
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_unicode_ci;
 

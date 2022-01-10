@@ -28,7 +28,7 @@ exports.getOneUser = async (req, res, next) => {
             where: {
                 id: Number(id)
             },
-            include: { posts: true },
+            include: { posts: true, comments: true },
         })
         res.json(user)
     } catch (error) {

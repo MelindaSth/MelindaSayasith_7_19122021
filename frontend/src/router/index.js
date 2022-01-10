@@ -1,9 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Login from '../views/Login.vue'
-import Signup from '../views/Signup.vue'
 import Account from '../views/Account.vue'
 import Feed from '../views/Feed.vue'
+import Auth from '../views/Auth.vue'
 
 Vue.use(VueRouter)
 Vue.use(require('vue-moment'));
@@ -11,14 +10,8 @@ Vue.use(require('vue-moment'));
 const routes = [
   {
     path: '/',
-    name: 'Login',
-    component: Login,
-  },
-  {
-    path: '/signup',
-    name: 'Signup',
-    component: Signup,
-
+    name: 'Auth',
+    component: Auth,
   },
   {
     path: '/account',
@@ -41,7 +34,7 @@ const routes = [
     beforeEnter: (to, from, next) => {
       if (localStorage.getItem('userId')) {
         next()
-      } else {
+       } else {
         next({ path: '/'})
       }
     }

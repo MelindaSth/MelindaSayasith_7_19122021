@@ -1,8 +1,7 @@
 <template>
   <div class="login">
-    <h2 id="login__title">
-      Connexion
-      <img src="../assets/logo.png" id="logo" alt="Logo Groupomania" />
+      <h1><img src="../assets/icon-left-font-monochrome-black.png" id="logo" alt="Logo Groupomania" /></h1>
+          <h2 id="login__title">Connexion
     </h2>
     <form v-on:submit.prevent="login" id="login__form">
       <div>
@@ -13,6 +12,7 @@
           name="email"
           class="login__input"
           placeholder="E-mail"
+          pattern="[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+.[a-zA-Z.]{2,15}"
           required
           v-model="inputLogin.email"
         />
@@ -31,12 +31,6 @@
       </div>
       <button type="submit" class="login__button">Connexion</button>
     </form>
-    <nav class="signup__invitation">
-      <p>
-        Pas encore inscrit ?
-        <router-link to="/signup">Rejoignez-nous</router-link>
-      </p>
-    </nav>
   </div>
 </template>
 
@@ -89,14 +83,32 @@ export default {
   margin: 0;
   box-sizing: border-box;
 }
+.signup {
+  width: 100%;
+}
 .login {
   font-family: "roboto";
   position: absolute;
   transform: translate(-50%, -50%);
-  top: 50%;
+  top: 40%;
   left: 50%;
   border-radius: 10px;
   padding: 15px 35px;
+  width:100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.login h1 {
+  margin: 25px;
+}
+
+#signup__form {
+  margin: auto;
+  width: 100%;
+  max-width: 300px;
 }
 #login__title {
   font-size: 32px;
@@ -117,6 +129,8 @@ export default {
   display: block;
   height: 50px;
   width: 100%;
+  max-width: 500px;
+  min-width: 300px;
   border-radius: 3px;
   padding: 0 10px;
   margin-top: 8px;

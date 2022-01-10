@@ -78,7 +78,6 @@ export default {
   methods: {
     selectFile() {
       this.inputPost.file = this.$refs.file.files[0];
-      // console.log(this.inputPost.file);
     },
     sendPost() {
       let url = "http://localhost:3000/api/posts";
@@ -115,7 +114,6 @@ export default {
         body: fd,
       };
       fetch(UrlUploadPhoto, optionsFile).then(() => {
-        // console.log(res)
         window.location.reload();
       });
     },
@@ -182,5 +180,7 @@ export default {
   margin-top: 8px;
   font-size: 14px;
   font-weight: 300;
+}
+.addingPost__form .button {
 }
 </style>
